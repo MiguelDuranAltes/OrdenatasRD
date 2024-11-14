@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: Notebook REST
+  datasource:
+    host: localhost
+    port: 5432
+    database: asi
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.database}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+properties:
+  clientHost: http://localhost:1234
+  jwtSecretKey: hjnasedofhoiautf3qwe7r89q234ro23ubq2o9q24rqg23ba0
+  jwtValidity: 7200
