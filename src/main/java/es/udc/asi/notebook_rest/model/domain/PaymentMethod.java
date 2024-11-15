@@ -2,6 +2,9 @@ package es.udc.asi.notebook_rest.model.domain;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
+
 @Entity
 public class PaymentMethod {
 
@@ -14,9 +17,73 @@ public class PaymentMethod {
   private String creditCardNumber;
 
   @Column
-  private Integer cvv;
+  private String cvv;
 
   @Column
   private String name;
+
+  @Column
+  private LocalDateTime expirationDate;
+
+  public PaymentMethod() {
+    super();
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    PaymentMethod other = (PaymentMethod) obj;
+    return Objects.equals(id, other.id);
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getCreditCardNumber() {
+    return creditCardNumber;
+  }
+
+  public void setCreditCardNumber(String creditCardNumber) {
+    this.creditCardNumber = creditCardNumber;
+  }
+
+  public String getCvv() {
+    return cvv;
+  }
+
+  public void setCvv(String cvv) {
+    this.cvv = cvv;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public LocalDateTime getExpirationDate() {
+    return expirationDate;
+  }
+
+  public void setExpirationDate(LocalDateTime expirationDate) {
+    this.expirationDate = expirationDate;
+  }
 
 }
