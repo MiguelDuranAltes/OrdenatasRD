@@ -2,8 +2,11 @@ package es.udc.asi.notebook_rest.model.domain;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class Product {
 
   @Id
@@ -25,6 +28,9 @@ public class Product {
 
   @Column
   private Integer availabality;
+
+  @OneToMany(mappedBy = "product")
+  private List<Order> orders = new ArrayList<>();
 
   public Product() {
     super();

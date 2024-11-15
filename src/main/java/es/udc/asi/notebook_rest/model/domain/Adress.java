@@ -2,9 +2,7 @@ package es.udc.asi.notebook_rest.model.domain;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "Adress")
@@ -28,9 +26,12 @@ public class Adress {
 
   @Column
   private Integer postalCode;
-  
+
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   private User owner;
+
+  @OneToMany(mappedBy = "adress", fetch = FetchType.LAZY)
+  private List<Order> orders = new ArrayList<>();
 
   public Adress() {
     super();
@@ -108,5 +109,14 @@ public class Adress {
   public void setOwner(User owner) {
     this.owner = owner;
   }
+
+  public List<Order> getOrders() {
+    return orders;
+  }
+
+  public void setOrders(List<Order> orders) {
+    this.orders = orders;
+  }
+
 
 }

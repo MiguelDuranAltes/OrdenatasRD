@@ -44,6 +44,9 @@ public class User {
   @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
   private List<Adress> adresses = new ArrayList<>();
 
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  private List<Order> orders = new ArrayList<>();
+
   public User() {
   }
 
@@ -126,5 +129,13 @@ public class User {
 
   public void setAdresses(List<Adress> adresses) {
     this.adresses = adresses;
+  }
+
+  public List<Order> getOrders() {
+    return orders;
+  }
+
+  public void setOrders(List<Order> orders) {
+    this.orders = orders;
   }
 }
