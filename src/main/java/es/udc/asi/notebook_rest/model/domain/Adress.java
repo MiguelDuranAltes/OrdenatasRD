@@ -1,9 +1,13 @@
 package es.udc.asi.notebook_rest.model.domain;
 
 import jakarta.persistence.*;
+
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
-
+@Entity
+@Table(name = "Adress")
 public class Adress {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "adress_generator")
@@ -24,6 +28,9 @@ public class Adress {
 
   @Column
   private Integer postalCode;
+  
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  private User owner;
 
   public Adress() {
     super();
@@ -94,5 +101,12 @@ public class Adress {
     this.postalCode = postalCode;
   }
 
+  public User getOwner() {
+    return owner;
+  }
+
+  public void setOwner(User owner) {
+    this.owner = owner;
+  }
 
 }

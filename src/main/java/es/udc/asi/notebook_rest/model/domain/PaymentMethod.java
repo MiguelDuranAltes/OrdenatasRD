@@ -25,6 +25,9 @@ public class PaymentMethod {
   @Column
   private LocalDateTime expirationDate;
 
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  private User owner;
+
   public PaymentMethod() {
     super();
   }
@@ -84,6 +87,14 @@ public class PaymentMethod {
 
   public void setExpirationDate(LocalDateTime expirationDate) {
     this.expirationDate = expirationDate;
+  }
+
+  public User getOwner() {
+    return owner;
+  }
+
+  public void setOwner(User owner) {
+    this.owner = owner;
   }
 
 }

@@ -2,11 +2,13 @@ package es.udc.asi.notebook_rest.model.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,12 +32,36 @@ public class User {
   @Enumerated(EnumType.STRING)
   private UserAuthority authority;
 
-  @OneToMany(mappedBy = "owner")
-  private List<Note> notes = new ArrayList<>();
+  @Column
+  private boolean blocked;
 
-  private boolean active = true;
+  @Column
+  private Integer warnings;
+
+  @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+  private List<PaymentMethod> paymentMethods = new ArrayList<>();
+
+  @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+  private List<Adress> adresses = new ArrayList<>();
 
   public User() {
+  }
+
+  @Override
+    public int hashCode() {
+    return Objects.hash(id);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    User other = (User) obj;
+    return Objects.equals(id, other.id);
   }
 
   public Long getId() {
@@ -70,20 +96,35 @@ public class User {
     this.authority = authority;
   }
 
-  public List<Note> getNotes() {
-    return notes;
+  public boolean isBlocked() {
+    return blocked;
   }
 
-  public void setNotes(List<Note> notes) {
-    this.notes = notes;
+  public void setBlocked(boolean blocked) {
+    this.blocked = blocked;
   }
 
-  public boolean isActive() {
-    return active;
+    public Integer getWanings() {
+    return warnings;
   }
 
-  public void setActive(boolean active) {
-    this.active = active;
+  public void setWarnings(Integer warnings) {
+    this.warnings = warnings;
   }
 
+  public List<PaymentMethod> getPaymentMethods() {
+    return paymentMethods;
+  }
+
+  public void setPaymentMethods(List<PaymentMethod> paymentMethods) {
+    this.paymentMethods = paymentMethods;
+  }
+
+  public List<Adress> getAdresses() {
+    return adresses;
+  }
+
+  public void setAdresses(List<Adress> adresses) {
+    this.adresses = adresses;
+  }
 }
