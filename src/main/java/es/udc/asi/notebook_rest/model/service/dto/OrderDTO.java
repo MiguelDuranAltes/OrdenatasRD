@@ -1,0 +1,92 @@
+package es.udc.asi.notebook_rest.model.service.dto;
+
+import java.time.LocalDateTime;
+
+public class OrderDTO {
+
+  private Long id;
+  private String product;
+  private String userLogin;
+  private Integer quantity;
+  private Double price;
+  private LocalDateTime purchaseDate;
+  private String status;
+  private AdressDTO adress;
+  private String creditCardNumber;
+
+  public OrderDTO() {
+    super();
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getProduct() {
+    return product;
+  }
+
+  public void setProduct(String product) {
+    this.product = product;
+  }
+
+  public String getUserLogin() {
+    return userLogin;
+  }
+
+  public void setUserLogin(String userLogin) {
+    this.userLogin = userLogin;
+  }
+
+  public Integer getQuantity() {
+    return quantity;
+  }
+
+  public void setQuantity(Integer quantity) {
+    this.quantity = quantity;
+  }
+
+  public Double getPrice() {
+    return price;
+  }
+
+  public void setPrice(Double price) {
+    this.price = price;
+  }
+
+  public LocalDateTime getPurchaseDate() {
+    return purchaseDate;
+  }
+
+  public void setPurchaseDate(LocalDateTime purchaseDate) {
+    this.purchaseDate = purchaseDate;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public AdressDTO getAdress() {
+    return adress;
+  }
+
+  public void setAdress(AdressDTO adress) {
+    this.adress = adress;
+  }
+
+  public String getCreditCardNumber() {
+    return creditCardNumber;
+  }
+
+  public void setCreditCardNumber(String creditCardNumber) {
+    this.creditCardNumber = creditCardNumber;
+  }
+}

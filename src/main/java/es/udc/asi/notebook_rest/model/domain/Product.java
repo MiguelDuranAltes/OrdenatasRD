@@ -27,7 +27,7 @@ public class Product {
   private String brand;
 
   @Column
-  private Integer availabality;
+  private Integer availability;
 
   @OneToMany(mappedBy = "product")
   private List<Order> orders = new ArrayList<>();
@@ -93,11 +93,11 @@ public class Product {
     this.brand = brand;
   }
 
-  public Integer getAvailabality() {
-    return availabality;
+  public Integer getAvailability() {
+    return availability;
   }
 
-  public void setAvailabality(Integer availabality) {
-    this.availabality = availabality;
+  public void setAvailability(Integer availability) {
+    this.availability = availability;
   }
 }
