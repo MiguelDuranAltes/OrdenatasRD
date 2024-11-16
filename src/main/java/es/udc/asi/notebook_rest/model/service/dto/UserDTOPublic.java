@@ -5,7 +5,7 @@ import es.udc.asi.notebook_rest.model.domain.User;
 public class UserDTOPublic {
   private Long id;
   private String login;
-  private boolean active = true;
+  private boolean blocked = true;
 
   public UserDTOPublic() {
   }
@@ -13,7 +13,7 @@ public class UserDTOPublic {
   public UserDTOPublic(User user) {
     this.id = user.getId();
     this.login = user.getLogin();
-    this.active = user.isActive();
+    this.blocked = user.isBlocked();
   }
 
   public Long getId() {
@@ -33,10 +33,10 @@ public class UserDTOPublic {
   }
 
   public boolean isActive() {
-    return active;
+    return blocked;
   }
 
-  public void setActive(boolean active) {
-    this.active = active;
+  public void setActive(boolean blocked) {
+    this.blocked = blocked;
   }
 }
