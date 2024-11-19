@@ -1,5 +1,7 @@
 package es.udc.asi.notebook_rest.model.service.dto;
 
+import es.udc.asi.notebook_rest.model.domain.Order;
+
 import java.time.LocalDateTime;
 
 public class OrderDTO {
@@ -16,6 +18,19 @@ public class OrderDTO {
 
   public OrderDTO() {
     super();
+  }
+
+  public OrderDTO(Order order) {
+    this.id = order.getId();
+    this.product = order.getProduct().getName();
+    this.userLogin = order.getUser().getLogin();
+    this.quantity = order.getQuantity();
+    this.price = order.getPrice();
+    this.purchaseDate = order.getPurchaseDate();
+    this.status = order.getStatus().toString();
+    this.adress = new AdressDTO(order.getAdress());
+    this.creditCardNumber = order.getPaymentMethod().getCreditCardNumber();
+
   }
 
   public Long getId() {
