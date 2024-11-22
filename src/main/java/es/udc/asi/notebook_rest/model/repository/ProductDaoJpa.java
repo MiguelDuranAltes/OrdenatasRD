@@ -29,7 +29,7 @@ public class ProductDaoJpa extends GenericDaoJpa implements ProductDao{
     }
 
     @Override
-    public Collection<Product> findAll() { return entityManager.createQuery("from Product", Product.class).getResultList();
+    public Collection<Product> findAll() { return entityManager.createQuery("Select p from Product p ", Product.class).getResultList();
     }
 
     @Override

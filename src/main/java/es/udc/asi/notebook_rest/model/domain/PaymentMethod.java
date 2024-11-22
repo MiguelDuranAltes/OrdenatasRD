@@ -97,4 +97,7 @@ public class PaymentMethod {
     this.owner = owner;
   }
 
+  public String getHiddenCardNumber(String creditCardNumber) {
+    return "**** " + creditCardNumber.substring(creditCardNumber.length() - 3);
+  }
 }

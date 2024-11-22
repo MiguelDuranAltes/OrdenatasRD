@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-public class ActionOverOrder {
+public class OrderChange {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "action_generator")
   @SequenceGenerator(name = "action_generator", sequenceName = "action_seq")
@@ -21,7 +21,10 @@ public class ActionOverOrder {
   @OneToOne(mappedBy = "action")
   private Order order;
 
-  public ActionOverOrder() {
+  @Column
+  private String reason;
+
+  public OrderChange() {
     super();
   }
 
@@ -38,7 +41,7 @@ public class ActionOverOrder {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    ActionOverOrder other = (ActionOverOrder) obj;
+    OrderChange other = (OrderChange) obj;
     return Objects.equals(id, other.id);
   }
 
@@ -72,5 +75,13 @@ public class ActionOverOrder {
 
   public void setOrder(Order order) {
     this.order = order;
+  }
+
+  public String getReason(){
+    return reason;
+  }
+
+  public void setReason(String reason){
+    this.reason = reason;
   }
 }

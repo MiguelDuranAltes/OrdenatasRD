@@ -1,13 +1,16 @@
 package es.udc.asi.notebook_rest.model.service.dto;
 
 import es.udc.asi.notebook_rest.model.domain.Order;
+import es.udc.asi.notebook_rest.model.domain.Product;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrderDTO {
 
   private Long id;
-  private String product;
+  private List<String> products;
   private String userLogin;
   private Integer quantity;
   private Double price;
@@ -22,7 +25,7 @@ public class OrderDTO {
 
   public OrderDTO(Order order) {
     this.id = order.getId();
-    this.product = order.getProduct().getName();
+    this.products = extractProductNames(order.getProducts());
     this.userLogin = order.getUser().getLogin();
     this.quantity = order.getQuantity();
     this.price = order.getPrice();
@@ -41,12 +44,12 @@ public class OrderDTO {
     this.id = id;
   }
 
-  public String getProduct() {
-    return product;
+  public List<String> getProducts() {
+    return products;
   }
 
-  public void setProduct(String product) {
-    this.product = product;
+  public void setProducts(List<String> products) {
+    this.products = products;
   }
 
   public String getUserLogin() {
@@ -103,5 +106,11 @@ public class OrderDTO {
 
   public void setCreditCardNumber(String creditCardNumber) {
     this.creditCardNumber = creditCardNumber;
+  }
+
+  public static List<String> extractProductNames(List<Product> products) {
+    return products.stream()
+      .map(Product::getName)
+      .collect(Collectors.toList());
   }
 }

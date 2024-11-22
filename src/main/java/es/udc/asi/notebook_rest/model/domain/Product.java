@@ -29,7 +29,7 @@ public class Product {
   @Column
   private Integer availability;
 
-  @OneToMany(mappedBy = "product")
+  @ManyToMany(mappedBy = "product")
   private List<Order> orders = new ArrayList<>();
 
   public Product() {

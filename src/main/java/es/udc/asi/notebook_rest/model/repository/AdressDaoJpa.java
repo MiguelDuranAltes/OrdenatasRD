@@ -9,11 +9,11 @@ import java.util.Collection;
 public class AdressDaoJpa extends GenericDaoJpa implements AdressDao{
   @Override
   public void create(Adress adress) {
-
+    entityManager.persist(adress);
   }
 
   @Override
-  public void delete(Adress adress) { entityManager.persist(adress); }
+  public void delete(Adress adress) { entityManager.remove(adress); }
 
   @Override
   public void update(Adress adress) { entityManager.merge(adress); }

@@ -3,6 +3,7 @@ package es.udc.asi.notebook_rest.model.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -25,8 +26,8 @@ public class Order {
   @Column
   private StatusOrder status;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  private Product product;
+  @ManyToMany(fetch = FetchType.LAZY)
+  private List<Product> products;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   private User user;
@@ -38,7 +39,7 @@ public class Order {
   private PaymentMethod paymentMethod;
 
   @OneToOne(fetch = FetchType.LAZY, optional = false)
-  private ActionOverOrder action;
+  private OrderChange action;
 
 
   public Order() {
@@ -102,13 +103,14 @@ public class Order {
     this.status = status;
   }
 
-  public Product getProduct() {
-    return product;
+  public List<Product> getProducts() {
+    return products;
   }
 
-  public void setProduct(Product product) {
-    this.product = product;
+  public void setProducts(List<Product> products) {
+    this.products = products;
   }
+
 
   public User getUser() {
     return user;
@@ -134,11 +136,11 @@ public class Order {
     this.paymentMethod = paymentMethod;
   }
 
-  public ActionOverOrder getAction() {
+  public OrderChange getAction() {
     return action;
   }
 
-  public void setAction(ActionOverOrder action) {
+  public void setAction(OrderChange action) {
     this.action = action;
   }
 
