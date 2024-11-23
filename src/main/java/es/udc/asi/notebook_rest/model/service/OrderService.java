@@ -1,0 +1,124 @@
+package es.udc.asi.notebook_rest.model.service;
+
+import es.udc.asi.notebook_rest.model.domain.*;
+import es.udc.asi.notebook_rest.model.exception.NotFoundException;
+import es.udc.asi.notebook_rest.model.exception.OperationNotAllowed;
+import es.udc.asi.notebook_rest.model.repository.*;
+import es.udc.asi.notebook_rest.model.service.dto.OrderChangeDTO;
+import es.udc.asi.notebook_rest.model.service.dto.OrderDTO;
+import es.udc.asi.notebook_rest.model.service.dto.UserDTOPrivate;
+import es.udc.asi.notebook_rest.security.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+@Service
+@Transactional(readOnly = true, rollbackFor = Exception.class)
+public class OrderService {
+
+  @Autowired
+  private OrderDao orderDAO;
+
+  @Autowired
+  private UserDao userDAO;
+
+  @Autowired
+  private UserService userService;
+
+  @Autowired
+  private PaymentMethodDao paymentMethodDao;
+
+  @Autowired
+  private ProductDao productDao;
+
+  @Autowired
+  private AdressDao adressDao;
+
+  @Autowired
+  private OrderChangeDao orderChangeDao;
+
+  public Collection<OrderDTO> findAll() {
+    Stream<Order> orders;
+
+    if (SecurityUtils.getCurrentUserIsAdmin()) {
+      orders = orderDAO.findAll().stream();
+    } else {
+      orders = orderDAO.findByUser(SecurityUtils.getCurrentUserLogin()).stream();
+    }
+    return orders.map(order -> new OrderDTO(order)).collect(Collectors.toList());
+  }
+
+  public OrderDTO findById(Long id) throws NotFoundException {
+    Order order = orderDAO.findById(id);
+    if(order == null) {
+      throw new NotFoundException(id.toString(), Order.class);
+    }
+    return new OrderDTO(order);
+  }
+
+  @PreAuthorize("hasAuthority('USER')")
+  @Transactional(readOnly = false)
+  public OrderDTO create(OrderDTO order) {
+    User currentUser = userDAO.findById(userService.getCurrentUserWithAuthority().getId());
+    PaymentMethod paymentMethod = paymentMethodDao.findById(order.getPaymentMethod().getId());
+    List<Product> products = productDao.findByNames(order.getProducts()).stream().toList();
+    Adress adress = adressDao.findById(order.getAdress().getId());
+
+    Order bdOrder = new Order(order.getPrice(), products, currentUser, adress, paymentMethod);
+
+    orderDAO.create(bdOrder);
+    return new OrderDTO(bdOrder);
+
+  }
+
+  @PreAuthorize("hasAuthority('USER')")
+  @Transactional(readOnly = false)
+  public OrderDTO returnOrder(OrderDTO order, OrderChangeDTO orderChangeDTO) throws NotFoundException, OperationNotAllowed {
+    Order bdOrder = orderDAO.findById(order.getId());
+    if(bdOrder == null) {
+      throw new NotFoundException(order.getId().toString(), Order.class);
+    }
+
+    UserDTOPrivate currentUser = userService.getCurrentUserWithAuthority();
+    if (!bdOrder.getUser().getId().equals(currentUser.getId())) {
+      throw new OperationNotAllowed("Current user is not the order owner");
+    }
+
+    bdOrder.setStatus(StatusOrder.RETURNED);
+
+    OrderChange orderChange = new OrderChange(orderChangeDTO.getRefund(), bdOrder, orderChangeDTO.getText(), orderChangeDTO.getType());
+    bdOrder.setAction(orderChange);
+
+    orderChangeDao.create(orderChange);
+    orderDAO.update(bdOrder);
+
+    //esto a su vez debería devolver los productos al stock
+    return new OrderDTO(bdOrder);
+  }
+
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @Transactional(readOnly = false)
+  public OrderDTO cancelOrder(OrderDTO order, OrderChangeDTO orderChangeDTO) throws NotFoundException {
+    Order bdOrder = orderDAO.findById(order.getId());
+    if(bdOrder == null) {
+      throw new NotFoundException(order.getId().toString(), Order.class);
+    }
+
+    bdOrder.setStatus(StatusOrder.CANCELLED);
+
+    OrderChange orderChange = new OrderChange(orderChangeDTO.getRefund(), bdOrder, orderChangeDTO.getText(), orderChangeDTO.getType());
+    bdOrder.setAction(orderChange);
+
+    orderChangeDao.create(orderChange);
+    orderDAO.update(bdOrder);
+    return new OrderDTO(bdOrder);
+  }
+
+  //se va a poder borrar un pedido?
+}

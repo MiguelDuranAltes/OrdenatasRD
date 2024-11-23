@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Repository
 public class ProductDaoJpa extends GenericDaoJpa implements ProductDao{
@@ -47,4 +48,14 @@ public class ProductDaoJpa extends GenericDaoJpa implements ProductDao{
       query.setParameter("brand", brand);
       return query.getResultList();
     }
+
+  public Collection<Product> findByNames(List<String> names) {
+    if (names == null || names.isEmpty()) {
+      return Collections.emptyList();
+    }
+    String queryStr = "SELECT p FROM Product p WHERE p.name IN :names";
+    TypedQuery<Product> query = entityManager.createQuery(queryStr, Product.class);
+    query.setParameter("names", names);
+    return query.getResultList();
+  }
 }

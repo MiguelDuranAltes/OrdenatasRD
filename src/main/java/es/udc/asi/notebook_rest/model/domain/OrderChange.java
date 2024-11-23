@@ -16,7 +16,7 @@ public class OrderChange {
   private Double refund;
 
   @Column
-  private LocalDateTime date;
+  private LocalDateTime date = LocalDateTime.now();
 
   @OneToOne(mappedBy = "action")
   private Order order;
@@ -24,8 +24,19 @@ public class OrderChange {
   @Column
   private String reason;
 
+  @Column
+  private String type;
+
   public OrderChange() {
     super();
+  }
+
+  public OrderChange(Double refund, Order order, String reason, String type) {
+    super();
+    this.refund = refund;
+    this.order = order;
+    this.reason = reason;
+
   }
 
   @Override
@@ -83,5 +94,13 @@ public class OrderChange {
 
   public void setReason(String reason){
     this.reason = reason;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
   }
 }

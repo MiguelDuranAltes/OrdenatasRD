@@ -12,12 +12,11 @@ public class OrderDTO {
   private Long id;
   private List<String> products;
   private String userLogin;
-  private Integer quantity;
   private Double price;
   private LocalDateTime purchaseDate;
   private String status;
   private AdressDTO adress;
-  private String creditCardNumber;
+  private PaymentPublicDTO paymentMethod;
 
   public OrderDTO() {
     super();
@@ -27,12 +26,11 @@ public class OrderDTO {
     this.id = order.getId();
     this.products = extractProductNames(order.getProducts());
     this.userLogin = order.getUser().getLogin();
-    this.quantity = order.getQuantity();
     this.price = order.getPrice();
     this.purchaseDate = order.getPurchaseDate();
     this.status = order.getStatus().toString();
     this.adress = new AdressDTO(order.getAdress());
-    this.creditCardNumber = order.getPaymentMethod().getCreditCardNumber();
+    this.paymentMethod = new PaymentPublicDTO(order.getPaymentMethod());
 
   }
 
@@ -58,14 +56,6 @@ public class OrderDTO {
 
   public void setUserLogin(String userLogin) {
     this.userLogin = userLogin;
-  }
-
-  public Integer getQuantity() {
-    return quantity;
-  }
-
-  public void setQuantity(Integer quantity) {
-    this.quantity = quantity;
   }
 
   public Double getPrice() {
@@ -100,12 +90,12 @@ public class OrderDTO {
     this.adress = adress;
   }
 
-  public String getCreditCardNumber() {
-    return creditCardNumber;
+  public PaymentPublicDTO getPaymentMethod() {
+    return paymentMethod;
   }
 
-  public void setCreditCardNumber(String creditCardNumber) {
-    this.creditCardNumber = creditCardNumber;
+  public void setPaymentMethod(PaymentPublicDTO paymentMethod) {
+    this.paymentMethod = paymentMethod;
   }
 
   public static List<String> extractProductNames(List<Product> products) {

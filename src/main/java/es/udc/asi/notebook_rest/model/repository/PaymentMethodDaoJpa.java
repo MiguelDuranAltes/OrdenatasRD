@@ -3,9 +3,11 @@ package es.udc.asi.notebook_rest.model.repository;
 import es.udc.asi.notebook_rest.model.domain.PaymentMethod;
 import es.udc.asi.notebook_rest.model.repository.util.GenericDaoJpa;
 import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 
+@Repository
 public class PaymentMethodDaoJpa extends GenericDaoJpa implements PaymentMethodDao{
   @Override
   public void create(PaymentMethod paymentMethod) { entityManager.persist(paymentMethod); }

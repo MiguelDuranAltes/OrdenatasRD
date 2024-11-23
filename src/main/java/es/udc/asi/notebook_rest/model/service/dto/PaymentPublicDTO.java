@@ -32,6 +32,4 @@ public class PaymentPublicDTO {
   public void setHiddenCardNumber(String hiddenCardNumber) {
     this.hiddenCardNumber = hiddenCardNumber;
   }
-
-
 }

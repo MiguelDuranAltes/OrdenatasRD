@@ -3,9 +3,11 @@ package es.udc.asi.notebook_rest.model.repository;
 import es.udc.asi.notebook_rest.model.domain.Adress;
 import es.udc.asi.notebook_rest.model.repository.util.GenericDaoJpa;
 import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 
+@Repository
 public class AdressDaoJpa extends GenericDaoJpa implements AdressDao{
   @Override
   public void create(Adress adress) {

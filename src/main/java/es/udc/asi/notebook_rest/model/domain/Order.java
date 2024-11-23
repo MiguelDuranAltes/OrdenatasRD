@@ -15,16 +15,13 @@ public class Order {
   private Long id;
 
   @Column
-  private Integer quantity;
-
-  @Column
   private Double price;
 
   @Column
-  private LocalDateTime purchaseDate;
+  private LocalDateTime purchaseDate = LocalDateTime.now();
 
   @Column
-  private StatusOrder status;
+  private StatusOrder status = StatusOrder.NOT_SHIPPED;
 
   @ManyToMany(fetch = FetchType.LAZY)
   private List<Product> products;
@@ -39,11 +36,21 @@ public class Order {
   private PaymentMethod paymentMethod;
 
   @OneToOne(fetch = FetchType.LAZY, optional = false)
-  private OrderChange action;
+  private OrderChange action = new OrderChange();
 
 
   public Order() {
     super();
+  }
+
+  public Order(Double price, List<Product> products, User user,
+      Adress adress, PaymentMethod paymentMethod) {
+    super();
+    this.price = price;
+    this.products = products;
+    this.user = user;
+    this.adress = adress;
+    this.paymentMethod = paymentMethod;
   }
 
   @Override
@@ -69,14 +76,6 @@ public class Order {
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public Integer getQuantity() {
-    return quantity;
-  }
-
-  public void setQuantity(Integer quantity) {
-    this.quantity = quantity;
   }
 
   public Double getPrice() {

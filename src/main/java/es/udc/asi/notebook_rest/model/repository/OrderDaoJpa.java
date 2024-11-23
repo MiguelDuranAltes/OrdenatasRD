@@ -3,9 +3,11 @@ package es.udc.asi.notebook_rest.model.repository;
 import es.udc.asi.notebook_rest.model.domain.Order;
 import es.udc.asi.notebook_rest.model.repository.util.GenericDaoJpa;
 import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 
+@Repository
 public class OrderDaoJpa extends GenericDaoJpa implements OrderDao {
 
     public void create(Order order) {
