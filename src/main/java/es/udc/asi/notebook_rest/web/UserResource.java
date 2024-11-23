@@ -28,10 +28,10 @@ public class UserResource {
     return userService.findAll();
   }
 
-  @GetMapping("/{id}")
+  /*@GetMapping("/{id}")
   public UserWithNotesDTO findOne(@PathVariable Long id) throws NotFoundException {
     return userService.findOne(id);
-  }
+  }*/
 
   @PutMapping("/{id}/active")
   public UserDTOPublic activate(@PathVariable Long id) throws NotFoundException, OperationNotAllowed {

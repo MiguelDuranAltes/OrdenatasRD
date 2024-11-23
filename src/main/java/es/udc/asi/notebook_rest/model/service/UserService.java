@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import es.udc.asi.notebook_rest.model.domain.Adress;
+import es.udc.asi.notebook_rest.model.repository.*;
+import es.udc.asi.notebook_rest.model.service.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,11 +18,6 @@ import es.udc.asi.notebook_rest.model.domain.UserAuthority;
 import es.udc.asi.notebook_rest.model.exception.NotFoundException;
 import es.udc.asi.notebook_rest.model.exception.OperationNotAllowed;
 import es.udc.asi.notebook_rest.model.exception.UserLoginExistsException;
-import es.udc.asi.notebook_rest.model.repository.NoteDao;
-import es.udc.asi.notebook_rest.model.repository.UserDao;
-import es.udc.asi.notebook_rest.model.service.dto.UserDTOPrivate;
-import es.udc.asi.notebook_rest.model.service.dto.UserDTOPublic;
-import es.udc.asi.notebook_rest.model.service.dto.UserWithNotesDTO;
 import es.udc.asi.notebook_rest.security.SecurityUtils;
 
 @Service
@@ -30,7 +28,10 @@ public class UserService {
   private UserDao userDAO;
 
   @Autowired
-  private NoteDao noteDAO;
+  private AdressDao adressDao;
+  @Autowired
+  private PaymentMethodDao paymentMethodDao;
+
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -41,23 +42,25 @@ public class UserService {
     if (SecurityUtils.getCurrentUserIsAdmin()) {
       return users.collect(Collectors.toList());
     }
-    return users.filter(user -> user.isActive()).collect(Collectors.toList());
+    return users.filter(user -> user.isBlocked()).collect(Collectors.toList());
   }
 
   @PreAuthorize("hasAuthority('ADMIN')")
-  public UserWithNotesDTO findOne(Long id) throws NotFoundException {
+  //Con Orders, prq me va a hacer falta para mostrar sus orders asociados
+  public UserWithOrdersDTO findOne(Long id) throws NotFoundException {
     User user = userDAO.findById(id);
     if (user == null) {
       throw new NotFoundException(id.toString(), User.class);
     }
-    return new UserWithNotesDTO(user);
+    return new UserWithOrdersDTO(user);
   }
+
 
   @Transactional(readOnly = false)
   public void registerUser(String login, String password) throws UserLoginExistsException {
     registerUser(login, password, false);
   }
-
+//VER DIFERENCIAS
   @Transactional(readOnly = false)
   public void registerUser(String login, String password, boolean isAdmin) throws UserLoginExistsException {
     if (userDAO.findByLogin(login) != null) {
@@ -73,13 +76,14 @@ public class UserService {
     if (isAdmin) {
       user.setAuthority(UserAuthority.ADMIN);
     }
+    user.setWarnings(0);
 
     userDAO.create(user);
   }
 
   @PreAuthorize("hasAuthority('ADMIN')")
   @Transactional(readOnly = false)
-  public UserDTOPublic updateActive(Long id, boolean active) throws NotFoundException, OperationNotAllowed {
+  public UserDTOPublic updateActive(Long id, boolean blocked) throws NotFoundException, OperationNotAllowed {
     User user = userDAO.findById(id);
     if (user == null) {
       throw new NotFoundException(id.toString(), User.class);
@@ -90,7 +94,7 @@ public class UserService {
       throw new OperationNotAllowed("The user cannot activate/deactive itself");
     }
 
-    user.setActive(active);
+    user.setBlocked(blocked);
     userDAO.update(user);
     return new UserDTOPublic(user);
   }
@@ -114,8 +118,8 @@ public class UserService {
     if (currentUser.getId().equals(theUser.getId())) {
       throw new OperationNotAllowed("The user cannot remove itself");
     }
-
-    theUser.getNotes().forEach(n -> noteDAO.delete(n));
+    //Hablar para saber si borrar los pedidos cuando se borre un usuario
+    //theUser.getOrders().forEach(o -> OrderDao.delete(o));
     userDAO.delete(theUser);
   }
 

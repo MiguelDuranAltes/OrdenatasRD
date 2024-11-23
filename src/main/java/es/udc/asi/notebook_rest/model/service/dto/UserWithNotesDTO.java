@@ -18,7 +18,7 @@ public class UserWithNotesDTO {
   public UserWithNotesDTO(User user) {
     this.id = user.getId();
     this.login = user.getLogin();
-    this.active = user.isActive();
+    this.active = user.isBlocked();
     user.getNotes().forEach(n -> this.notes.add(new NoteDTO(n)));
   }
 

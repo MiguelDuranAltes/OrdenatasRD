@@ -31,6 +31,14 @@ public class PaymentMethod {
   public PaymentMethod() {
     super();
   }
+  public PaymentMethod(String creditCardNumber,String cvv,String name,LocalDateTime expirationDate, User user){
+    this.creditCardNumber = creditCardNumber;
+    this.cvv = cvv;
+    this.name = name;
+    this.expirationDate = expirationDate;
+    this.owner = user;
+
+  }
 
   @Override
   public int hashCode() {

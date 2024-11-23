@@ -32,7 +32,7 @@ public class UserDTOPublic {
     this.login = login;
   }
 
-  public boolean isActive() {
+  public boolean isBlocked() {
     return blocked;
   }
 
