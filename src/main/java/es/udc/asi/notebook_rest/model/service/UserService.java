@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import es.udc.asi.notebook_rest.model.domain.Adress;
 import es.udc.asi.notebook_rest.model.repository.*;
 import es.udc.asi.notebook_rest.model.service.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +59,7 @@ public class UserService {
   public void registerUser(String login, String password) throws UserLoginExistsException {
     registerUser(login, password, false);
   }
-//VER DIFERENCIAS
+
   @Transactional(readOnly = false)
   public void registerUser(String login, String password, boolean isAdmin) throws UserLoginExistsException {
     if (userDAO.findByLogin(login) != null) {
@@ -122,5 +121,4 @@ public class UserService {
     //theUser.getOrders().forEach(o -> OrderDao.delete(o));
     userDAO.delete(theUser);
   }
-
 }

@@ -1,5 +1,6 @@
 package es.udc.asi.notebook_rest.model.service;
 
+import es.udc.asi.notebook_rest.model.domain.Adress;
 import es.udc.asi.notebook_rest.model.domain.PaymentMethod;
 import es.udc.asi.notebook_rest.model.domain.User;
 import es.udc.asi.notebook_rest.model.exception.NotFoundException;
@@ -49,6 +50,10 @@ public class PaymentService {
     PaymentMethod paymentMethodFinal = new PaymentMethod(method.getCreditNumber(), method.getCvv(), method.getName(),
       method.getExpirationDate(),currentUser);
     paymentMethod.create(paymentMethodFinal);
+    List<PaymentMethod> lista = currentUser.getPaymentMethods();
+    lista.add(lista.size()+1,paymentMethodFinal);
+    currentUser.setPaymentMethods(lista);
+    userDAO.update(currentUser);
     return new PaymentMethodDTO(paymentMethodFinal);
   }
 
@@ -61,7 +66,6 @@ public class PaymentService {
     paymentMethod.delete(errasedMethod);
   }
 
-  //NOT SURE, se puede meter en el DAO un método para borrar lo M.Pago de un usuario en concreto
   @Transactional(readOnly = false)
   public void deleteUserMethods(User user) throws NotFoundException{
     Collection<PaymentMethod> deletedMethods = paymentMethod.findByUser(user.getLogin());

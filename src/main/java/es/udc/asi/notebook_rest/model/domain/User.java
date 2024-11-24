@@ -51,9 +51,7 @@ public class User {
               List<Adress> adresses, List<Order> orders ) {
   }
 
-  public User() {
-
-  }
+  public User() { }
 
   @Override
     public int hashCode() {
