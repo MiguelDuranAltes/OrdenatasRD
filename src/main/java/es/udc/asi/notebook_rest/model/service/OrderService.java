@@ -120,5 +120,26 @@ public class OrderService {
     return new OrderDTO(bdOrder);
   }
 
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @Transactional(readOnly = false)
+  public OrderDTO update(OrderDTO order) throws NotFoundException {
+    Order bdOrder = orderDAO.findById(order.getId());
+    if(bdOrder == null) {
+      throw new NotFoundException(order.getId().toString(), Order.class);
+    }
+
+    // Convertir el status de String a StatusOrder (enumerado)
+    if (order.getStatus() != null) {
+      try {
+        bdOrder.setStatus(StatusOrder.valueOf(order.getStatus().toUpperCase()));
+      } catch (IllegalArgumentException e) {
+        throw new IllegalArgumentException("Invalid status: " + order.getStatus());
+      }
+    }
+
+    orderDAO.update(bdOrder);
+    return new OrderDTO(bdOrder);
+  }
+
   //se va a poder borrar un pedido?
 }
