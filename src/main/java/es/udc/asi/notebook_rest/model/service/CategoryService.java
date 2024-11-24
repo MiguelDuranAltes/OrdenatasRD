@@ -57,7 +57,7 @@ public class CategoryService {
   @PreAuthorize("hasAuthority('ADMIN')")
   @Transactional(readOnly = false)
   public CategoryDTO create(CategoryDTO category) {
-    Category bdCategory = new Category(category.getName());
+      Category bdCategory = new Category(category.getName());
     categoryDAO.create(bdCategory);
     return new CategoryDTO(bdCategory);
   }

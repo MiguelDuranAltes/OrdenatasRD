@@ -4,12 +4,15 @@ package es.udc.asi.notebook_rest.model.service.dto;
 import es.udc.asi.notebook_rest.model.domain.PaymentMethod;
 import jakarta.validation.constraints.NotEmpty;
 
+import java.time.LocalDateTime;
+
 public class PaymentMethodDTO {
   @NotEmpty
   private Long id;
   private String creditNumber;
   private String cvv;
   private String name;
+  private LocalDateTime expirationDate;
 
   public PaymentMethodDTO() {
 
@@ -20,6 +23,7 @@ public class PaymentMethodDTO {
     this.creditNumber = PaymentMethod.getCreditCardNumber();
     this.cvv = PaymentMethod.getCvv();
     this.name = PaymentMethod.getName();
+    this.expirationDate = PaymentMethod.getExpirationDate();
   }
 
 
@@ -55,4 +59,11 @@ public class PaymentMethodDTO {
     this.name = name;
   }
 
+  public LocalDateTime getExpirationDate() {
+    return expirationDate;
+  }
+
+  public void setExpirationDate(LocalDateTime expirationDate) {
+    this.expirationDate = expirationDate;
+  }
 }

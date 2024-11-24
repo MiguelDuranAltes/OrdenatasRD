@@ -17,6 +17,7 @@ public class UserWithOrdersDTO {
   private List<OrderDTO> orders = new ArrayList();
 
   public UserWithOrdersDTO() {
+
   }
 
   public UserWithOrdersDTO(User user) {

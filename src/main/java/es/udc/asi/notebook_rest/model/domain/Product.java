@@ -32,8 +32,15 @@ public class Product {
   @ManyToMany(mappedBy = "product")
   private List<Order> orders = new ArrayList<>();
 
-  public Product() {
-    super();
+  public Product() {super();}
+
+  public Product(String name, String description, Double price, String brand, Integer availability){
+    this.name = name;
+    this.description = description;
+    this.price = price;
+    this.brand = brand;
+    this.availability = availability;
+
   }
 
   @Override

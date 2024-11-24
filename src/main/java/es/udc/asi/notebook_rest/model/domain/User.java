@@ -47,7 +47,12 @@ public class User {
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private List<Order> orders = new ArrayList<>();
 
+  public User(Long id, String login, UserAuthority authority, Integer warnings, List<PaymentMethod> paymentMethods,
+              List<Adress> adresses, List<Order> orders ) {
+  }
+
   public User() {
+
   }
 
   @Override
