@@ -21,6 +21,8 @@ public class UserDTOPrivate {
 
   private UserAuthority authority;
 
+  private String password;
+
   private Integer warnings;
 
   private List<AdressDTO> adresses = new ArrayList<>();
@@ -62,6 +64,14 @@ public class UserDTOPrivate {
 
   public void setAuthority(UserAuthority authority) {
     this.authority = authority;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public Integer getWarnings() {

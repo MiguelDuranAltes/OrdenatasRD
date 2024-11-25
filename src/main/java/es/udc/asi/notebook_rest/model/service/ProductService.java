@@ -40,7 +40,7 @@ public class ProductService {
     return new ProductDTO(product);
   }
 
-  @PreAuthorize("hasAuthority('USER')")
+  @PreAuthorize("hasAuthority('ADMIN')")
   @Transactional(readOnly = false)
   public ProductDTO create(ProductDTO newProduct){
     Product product = new Product(newProduct.getName(), newProduct.getDescription(), newProduct.getPrice(),

@@ -30,11 +30,18 @@ public class Adress {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   private User owner;
 
-  @OneToMany(mappedBy = "adress", fetch = FetchType.LAZY)
-  private List<Order> orders = new ArrayList<>();
 
   public Adress() {
     super();
+  }
+
+  public Adress(String street, Integer door, Integer portal, String city, Integer postalCode, User owner) {
+    this.street = street;
+    this.door = door;
+    this.portal = portal;
+    this.city = city;
+    this.postalCode = postalCode;
+    this.owner = owner;
   }
 
   @Override
@@ -110,13 +117,6 @@ public class Adress {
     this.owner = owner;
   }
 
-  public List<Order> getOrders() {
-    return orders;
-  }
-
-  public void setOrders(List<Order> orders) {
-    this.orders = orders;
-  }
 
 
 }

@@ -27,12 +27,6 @@ public class UserService {
   private UserDao userDAO;
 
   @Autowired
-  private AdressDao adressDao;
-  @Autowired
-  private PaymentMethodDao paymentMethodDao;
-
-
-  @Autowired
   private PasswordEncoder passwordEncoder;
 
   @PreAuthorize("hasAuthority('ADMIN')")
@@ -82,7 +76,7 @@ public class UserService {
 
   @PreAuthorize("hasAuthority('ADMIN')")
   @Transactional(readOnly = false)
-  public UserDTOPublic updateActive(Long id, boolean blocked) throws NotFoundException, OperationNotAllowed {
+  public UserDTOPublic updateBlocked(Long id, boolean blocked) throws NotFoundException, OperationNotAllowed {
     User user = userDAO.findById(id);
     if (user == null) {
       throw new NotFoundException(id.toString(), User.class);
@@ -117,8 +111,7 @@ public class UserService {
     if (currentUser.getId().equals(theUser.getId())) {
       throw new OperationNotAllowed("The user cannot remove itself");
     }
-    //Hablar para saber si borrar los pedidos cuando se borre un usuario
-    //theUser.getOrders().forEach(o -> OrderDao.delete(o));
+
     userDAO.delete(theUser);
   }
 }
