@@ -1,8 +1,6 @@
 package es.udc.asi.notebook_rest.model.repository;
 
-import es.udc.asi.notebook_rest.model.domain.Note;
 import es.udc.asi.notebook_rest.model.domain.Product;
-import es.udc.asi.notebook_rest.model.domain.User;
 import es.udc.asi.notebook_rest.model.repository.util.GenericDaoJpa;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;

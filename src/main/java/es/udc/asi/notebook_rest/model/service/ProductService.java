@@ -1,6 +1,5 @@
 package es.udc.asi.notebook_rest.model.service;
 
-import es.udc.asi.notebook_rest.model.domain.Note;
 import es.udc.asi.notebook_rest.model.domain.Product;
 import es.udc.asi.notebook_rest.model.exception.NotFoundException;
 import es.udc.asi.notebook_rest.model.exception.OperationNotAllowed;
@@ -54,7 +53,7 @@ public class ProductService {
   public ProductDTO update (ProductDTO product)throws NotFoundException, OperationNotAllowed{
     Product productBd = productdao.findById(product.getId());
     if (productBd == null) {
-      throw new NotFoundException(productBd.getId().toString(), Note.class);
+      throw new NotFoundException(productBd.getId().toString(), Product.class);
     }
     productBd.setName(product.getName());
     productBd.setDescription(productBd.getDescription());

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "orders")
 public class Order {
 
   @Id
@@ -35,8 +36,8 @@ public class Order {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   private PaymentMethod paymentMethod;
 
-  @OneToOne(fetch = FetchType.LAZY, optional = false)
-  private OrderChange action = new OrderChange();
+  @OneToOne(fetch = FetchType.LAZY, optional = true)
+  private OrderChange action = null;
 
 
   public Order() {

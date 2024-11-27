@@ -74,7 +74,7 @@ public class OrderService {
 
     orderDAO.create(bdOrder);
     return new OrderDTO(bdOrder);
-
+    //tengo que reducir stock de los productos
   }
 
   @PreAuthorize("hasAuthority('USER')")

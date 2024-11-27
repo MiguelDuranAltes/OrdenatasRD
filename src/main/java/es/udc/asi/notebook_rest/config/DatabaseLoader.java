@@ -1,17 +1,16 @@
 package es.udc.asi.notebook_rest.config;
 
+import es.udc.asi.notebook_rest.model.domain.*;
+import es.udc.asi.notebook_rest.model.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.udc.asi.notebook_rest.model.domain.Category;
-import es.udc.asi.notebook_rest.model.domain.Note;
-import es.udc.asi.notebook_rest.model.domain.User;
 import es.udc.asi.notebook_rest.model.exception.UserLoginExistsException;
-import es.udc.asi.notebook_rest.model.repository.CategoryDao;
-import es.udc.asi.notebook_rest.model.repository.NoteDao;
-import es.udc.asi.notebook_rest.model.repository.UserDao;
 import es.udc.asi.notebook_rest.model.service.UserService;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Configuration
 public class DatabaseLoader {
@@ -23,46 +22,72 @@ public class DatabaseLoader {
   private UserService userService;
 
   @Autowired
-  private NoteDao noteDAO;
+  private OrderDao orderDAO;
 
   @Autowired
-  private CategoryDao categoryDAO;
+  private ProductDao productDao;
+
+  @Autowired
+  private AdressDao adressDao;
+
+  @Autowired
+  private PaymentMethodDao paymentMethodDao;
+
 
   @Transactional(readOnly = false, rollbackFor = Exception.class)
   public void loadData() throws UserLoginExistsException, InterruptedException {
-    userService.registerUser("pepemin", "pepemin", true);
-    userService.registerUser("mariadmin", "mariadmin", true);
-    userService.registerUser("laura", "laura");
+    userService.registerUser("redon", "redon", true);
+    userService.registerUser("duran", "duran", true);
+    userService.registerUser("lucas", "lucas");
     userService.registerUser("pedroff", "pedroff");
     User pedro = userDAO.findByLogin("pedroff");
-    pedro.setActive(false);
+    pedro.setBlocked(true);
     userDAO.update(pedro);
-    userService.registerUser("ramón", "ramón");
+    userService.registerUser("miguel", "miguel");
 
-    Category shopping = new Category("Shopping");
-    Category task = new Category("Task");
-    Category book = new Category("Book");
-    Category game = new Category("Game");
+    User miguel = userDAO.findByLogin("miguel");
+    Adress adress1 = new Adress("Calle Falsa",123, 1, "Springfield", 12345, miguel);
+    miguel.getAdresses().add(adress1);
+    adressDao.create(adress1);
+    PaymentMethod paymentMethod1 = new PaymentMethod("1234567890123456", "123", "Miguel Duran", LocalDateTime.of(2026,12,25,0,0,0), miguel);
+    miguel.getPaymentMethods().add(paymentMethod1);
+    paymentMethodDao.create(paymentMethod1);
 
-    categoryDAO.create(shopping);
-    categoryDAO.create(task);
-    categoryDAO.create(book);
-    categoryDAO.create(game);
+    //tengo que hacer el adressDao.create(adress1)?
+    userDAO.update(miguel);
 
-    Note limones = new Note("Limones", null, userDAO.findByLogin("laura"));
-    limones.getCategories().add(shopping);
-    noteDAO.create(limones);
+    User lucas = userDAO.findByLogin("lucas");
+    Adress adress2 = new Adress("Calle Real", 456, 2, "Halloween", 12345, lucas);
+    lucas.getAdresses().add(adress2);
+    adressDao.create(adress2);
+    PaymentMethod paymentMethod2 = new PaymentMethod("9876543210987654", "321", "Lucas Redondo", LocalDateTime.of(2026,8,15,0,0,0), lucas);
+    lucas.getPaymentMethods().add(paymentMethod2);
+    paymentMethodDao.create(paymentMethod2);
+    userDAO.update(lucas);
+
+    Product product1 = new Product("Tarjeta Gráfica", "Descripción detallada de la tarjeta", 300.0, "Asus", 10);
+    Product product2 = new Product("Procesador", "Descripción detallada del procesador", 200.0, "Intel", 5);
+    Product product3 = new Product("Placa Base", "Descripción detallada de la placa base", 150.0, "MSI", 3);
+    Product product4 = new Product("Memoria RAM", "Descripción detallada de la memoria RAM", 100.0, "Corsair", 8);
+
+    productDao.create(product1);
+    productDao.create(product2);
+    productDao.create(product3);
+    productDao.create(product4);
+
+
+    //creo que en el orderDao o Service, tengo que reducir y aumentar el stock de los productos
+    Order order1 = new Order(300.0, List.of(product1) , miguel, adress1, paymentMethod1);
+    orderDAO.create(order1);
     Thread.sleep(1000);
-    Note farmer = new Note("Farmer Against Potatoes Idle", null, userDAO.findByLogin("laura"));
-    farmer.getCategories().add(task);
-    farmer.getCategories().add(game);
-    noteDAO.create(farmer);
+
+    Order order2 = new Order(350.0, List.of(product2, product3) , lucas, adress2, paymentMethod2);
+    orderDAO.create(order2);
     Thread.sleep(1000);
-    Note manzanas = new Note("Manzanas", "De las que estén de oferta", userDAO.findByLogin("ramón"));
-    manzanas.getCategories().add(shopping);
-    noteDAO.create(manzanas);
-    Note dni = new Note("Renovar DNI", null, userDAO.findByLogin("ramón"));
-    noteDAO.create(dni);
+
+    Order order3 = new Order(100.0, List.of(product4) , lucas, adress2, paymentMethod2);
+    orderDAO.create(order3);
+    Thread.sleep(1000);
   }
 
 }

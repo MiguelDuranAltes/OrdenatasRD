@@ -2,6 +2,7 @@ package es.udc.asi.notebook_rest.web;
 
 import java.util.List;
 
+import es.udc.asi.notebook_rest.model.service.dto.UserWithOrdersDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,6 @@ import es.udc.asi.notebook_rest.model.exception.NotFoundException;
 import es.udc.asi.notebook_rest.model.exception.OperationNotAllowed;
 import es.udc.asi.notebook_rest.model.service.UserService;
 import es.udc.asi.notebook_rest.model.service.dto.UserDTOPublic;
-import es.udc.asi.notebook_rest.model.service.dto.UserWithNotesDTO;
 
 @RestController
 @RequestMapping("/api/users")
@@ -28,19 +28,19 @@ public class UserResource {
     return userService.findAll();
   }
 
-  /*@GetMapping("/{id}")
-  public UserWithNotesDTO findOne(@PathVariable Long id) throws NotFoundException {
+  @GetMapping("/{id}")
+  public UserWithOrdersDTO findOne(@PathVariable Long id) throws NotFoundException {
     return userService.findOne(id);
-  }*/
+  }
 
   @PutMapping("/{id}/active")
-  public UserDTOPublic activate(@PathVariable Long id) throws NotFoundException, OperationNotAllowed {
-    return userService.updateActive(id, true);
+  public UserDTOPublic block(@PathVariable Long id) throws NotFoundException, OperationNotAllowed {
+    return userService.updateBlocked(id, true);
   }
 
   @DeleteMapping("/{id}/active")
-  public UserDTOPublic deactivate(@PathVariable Long id) throws NotFoundException, OperationNotAllowed {
-    return userService.updateActive(id, false);
+  public UserDTOPublic unblock(@PathVariable Long id) throws NotFoundException, OperationNotAllowed {
+    return userService.updateBlocked(id, false);
   }
 
   @DeleteMapping("/{id}")

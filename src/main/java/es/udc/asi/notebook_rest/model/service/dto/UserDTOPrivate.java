@@ -1,17 +1,9 @@
 package es.udc.asi.notebook_rest.model.service.dto;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
-import es.udc.asi.notebook_rest.model.service.dto.AdressDTO;
-import es.udc.asi.notebook_rest.model.service.dto.PaymentMethodDTO;
-import es.udc.asi.notebook_rest.model.domain.Adress;
-import es.udc.asi.notebook_rest.model.domain.PaymentMethod;
 import es.udc.asi.notebook_rest.model.domain.User;
 import es.udc.asi.notebook_rest.model.domain.UserAuthority;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 
 public class UserDTOPrivate {
   private Long id;
@@ -25,10 +17,6 @@ public class UserDTOPrivate {
 
   private Integer warnings;
 
-  private List<AdressDTO> adresses = new ArrayList<>();
-
-  private List<PaymentMethodDTO> paymentMethods = new ArrayList<>();
-
   public UserDTOPrivate() {
   }
 
@@ -37,9 +25,6 @@ public class UserDTOPrivate {
     this.login = user.getLogin();
     this.authority = user.getAuthority();
     this.warnings = user.getWanings();
-    user.getAdresses().forEach(adres -> this.adresses.add(new AdressDTO(adres)));
-
-    user.getPaymentMethods().forEach(method -> this.paymentMethods.add(new PaymentMethodDTO(method)));
   }
 
   public Long getId() {
@@ -80,21 +65,5 @@ public class UserDTOPrivate {
 
   public void setWarnings(Integer warnings) {
     this.warnings = warnings;
-  }
-
-  public List<AdressDTO> getAdresses() {
-    return adresses;
-  }
-
-  public void setAdresses(List<AdressDTO> adresses) {
-    this.adresses = adresses;
-  }
-
-  public List<PaymentMethodDTO> getPaymentMethods() {
-    return paymentMethods;
-  }
-
-  public void setPaymentMethods(List<PaymentMethodDTO> paymentMethods) {
-    this.paymentMethods = paymentMethods;
   }
 }
