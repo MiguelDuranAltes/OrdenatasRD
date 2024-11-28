@@ -6,6 +6,7 @@ import es.udc.asi.notebook_rest.model.exception.OperationNotAllowed;
 import es.udc.asi.notebook_rest.model.repository.*;
 import es.udc.asi.notebook_rest.model.service.dto.OrderChangeDTO;
 import es.udc.asi.notebook_rest.model.service.dto.OrderDTO;
+import es.udc.asi.notebook_rest.model.service.dto.OrderProductDTO;
 import es.udc.asi.notebook_rest.model.service.dto.UserDTOPrivate;
 import es.udc.asi.notebook_rest.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,15 +65,20 @@ public class OrderService {
 
   @PreAuthorize("hasAuthority('USER')")
   @Transactional(readOnly = false)
-  public OrderDTO create(OrderDTO order) {
+  public OrderDTO create(OrderDTO order, List<OrderProductDTO> orderProductDTOS){
     User currentUser = userDAO.findById(userService.getCurrentUserWithAuthority().getId());
     PaymentMethod paymentMethod = paymentMethodDao.findById(order.getPaymentMethod().getId());
-    List<Product> products = productDao.findByNames(order.getProducts()).stream().toList();
     Adress adress = adressDao.findById(order.getAdress().getId());
 
-    Order bdOrder = new Order(order.getPrice(), products, currentUser, adress, paymentMethod);
+    Order bdOrder = new Order(order.getPrice(), currentUser, adress, paymentMethod);
 
     orderDAO.create(bdOrder);
+
+    for (OrderProductDTO orderProductDTO : orderProductDTOS) {
+      Product product = productDao.findById(orderProductDTO.getProductId());
+      OrderProduct orderProduct = new OrderProduct(bdOrder, product, orderProductDTO.getQuantity());
+      bdOrder.getOrderProducts().add(orderProduct);
+    }
     return new OrderDTO(bdOrder);
     //tengo que reducir stock de los productos
   }

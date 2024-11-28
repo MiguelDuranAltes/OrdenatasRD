@@ -77,15 +77,18 @@ public class DatabaseLoader {
 
 
     //creo que en el orderDao o Service, tengo que reducir y aumentar el stock de los productos
-    Order order1 = new Order(300.0, List.of(product1) , miguel, adress1, paymentMethod1);
+    Order order1 = new Order(300.0, miguel, adress1, paymentMethod1);
+    order1.setOrderProducts(List.of(new OrderProduct(order1, product1, 2), new OrderProduct(order1, product2, 3)));
     orderDAO.create(order1);
     Thread.sleep(1000);
 
-    Order order2 = new Order(350.0, List.of(product2, product3) , lucas, adress2, paymentMethod2);
+    Order order2 = new Order(350.0 , lucas, adress2, paymentMethod2);
+    order2.setOrderProducts(List.of(new OrderProduct(order2, product3, 1)));
     orderDAO.create(order2);
     Thread.sleep(1000);
 
-    Order order3 = new Order(100.0, List.of(product4) , lucas, adress2, paymentMethod2);
+    Order order3 = new Order(100.0, lucas, adress2, paymentMethod2);
+    order3.setOrderProducts(List.of(new OrderProduct(order3, product4, 2), new OrderProduct(order3, product1, 5)));
     orderDAO.create(order3);
     Thread.sleep(1000);
   }

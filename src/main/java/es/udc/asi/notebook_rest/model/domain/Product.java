@@ -29,9 +29,6 @@ public class Product {
   @Column
   private Integer availability;
 
-  @ManyToMany(mappedBy = "products")
-  private List<Order> orders = new ArrayList<>();
-
   public Product() {super();}
 
   public Product(String name, String description, Double price, String brand, Integer availability){
@@ -108,11 +105,4 @@ public class Product {
     this.availability = availability;
   }
 
-  public List<Order> getOrders() {
-    return orders;
-  }
-
-  public void setOrders(List<Order> orders) {
-    this.orders = orders;
-  }
 }

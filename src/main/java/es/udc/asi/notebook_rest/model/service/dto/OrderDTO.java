@@ -4,13 +4,13 @@ import es.udc.asi.notebook_rest.model.domain.Order;
 import es.udc.asi.notebook_rest.model.domain.Product;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class OrderDTO {
 
   private Long id;
-  private List<String> products;
   private String userLogin;
   private Double price;
   private LocalDateTime purchaseDate;
@@ -24,7 +24,6 @@ public class OrderDTO {
 
   public OrderDTO(Order order) {
     this.id = order.getId();
-    this.products = extractProductNames(order.getProducts());
     this.userLogin = order.getUser().getLogin();
     this.price = order.getPrice();
     this.purchaseDate = order.getPurchaseDate();
@@ -40,14 +39,6 @@ public class OrderDTO {
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public List<String> getProducts() {
-    return products;
-  }
-
-  public void setProducts(List<String> products) {
-    this.products = products;
   }
 
   public String getUserLogin() {

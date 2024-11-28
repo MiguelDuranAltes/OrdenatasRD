@@ -5,6 +5,7 @@ import es.udc.asi.notebook_rest.model.exception.NotFoundException;
 import es.udc.asi.notebook_rest.model.exception.OperationNotAllowed;
 import es.udc.asi.notebook_rest.model.service.OrderService;
 import es.udc.asi.notebook_rest.model.service.dto.OrderDTO;
+import es.udc.asi.notebook_rest.model.service.dto.OrderProductDTO;
 import es.udc.asi.notebook_rest.web.exceptions.IdAndBodyNotMatchingOnUpdateException;
 import es.udc.asi.notebook_rest.web.exceptions.RequestBodyNotValidException;
 import jakarta.validation.Valid;
@@ -13,6 +14,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -32,12 +34,12 @@ public class OrderResource {
   }
 
   @PostMapping
-  public OrderDTO create(@RequestBody @Valid OrderDTO order, Errors errors) throws RequestBodyNotValidException {
+  public OrderDTO create(@RequestBody @Valid OrderDTO order, List<OrderProductDTO> orderProductDTOS, Errors errors) throws RequestBodyNotValidException {
     if (errors.hasErrors()) {
       throw new RequestBodyNotValidException(errors);
     }
 
-    return orderService.create(order);
+    return orderService.create(order, orderProductDTOS);
   }
 
   @PutMapping("/{id}")

@@ -3,6 +3,7 @@ package es.udc.asi.notebook_rest.model.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,10 +23,11 @@ public class Order {
   private LocalDateTime purchaseDate = LocalDateTime.now();
 
   @Column
+  @Enumerated(EnumType.STRING)
   private StatusOrder status = StatusOrder.NOT_SHIPPED;
 
-  @ManyToMany(fetch = FetchType.LAZY)
-  private List<Product> products;
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<OrderProduct> orderProducts = new ArrayList<>();
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   private User user;
@@ -44,11 +46,10 @@ public class Order {
     super();
   }
 
-  public Order(Double price, List<Product> products, User user,
+  public Order(Double price, User user,
       Adress adress, PaymentMethod paymentMethod) {
     super();
     this.price = price;
-    this.products = products;
     this.user = user;
     this.adress = adress;
     this.paymentMethod = paymentMethod;
@@ -103,12 +104,12 @@ public class Order {
     this.status = status;
   }
 
-  public List<Product> getProducts() {
-    return products;
+  public List<OrderProduct> getOrderProducts() {
+    return orderProducts;
   }
 
-  public void setProducts(List<Product> products) {
-    this.products = products;
+  public void setOrderProducts(List<OrderProduct> orderProducts) {
+    this.orderProducts = orderProducts;
   }
 
 
