@@ -65,7 +65,7 @@ public class OrderService {
 
   @PreAuthorize("hasAuthority('USER')")
   @Transactional(readOnly = false)
-  public OrderDTO create(OrderDTO order, List<OrderProductDTO> orderProductDTOS){
+  public OrderDTO create(OrderDTO order, List<OrderProductDTO> orderProductDTOS) throws OperationNotAllowed {
     User currentUser = userDAO.findById(userService.getCurrentUserWithAuthority().getId());
     PaymentMethod paymentMethod = paymentMethodDao.findById(order.getPaymentMethod().getId());
     Adress adress = adressDao.findById(order.getAdress().getId());
@@ -76,11 +76,19 @@ public class OrderService {
 
     for (OrderProductDTO orderProductDTO : orderProductDTOS) {
       Product product = productDao.findById(orderProductDTO.getProductId());
+      if(orderProductDTO.getQuantity() > product.getAvailability()) {
+        throw new OperationNotAllowed("Not enough stock for product " + product.getName());
+      }
       OrderProduct orderProduct = new OrderProduct(bdOrder, product, orderProductDTO.getQuantity());
       bdOrder.getOrderProducts().add(orderProduct);
     }
+
+    for(OrderProduct orderProduct : bdOrder.getOrderProducts()) {
+      Product product = orderProduct.getProduct();
+      product.setAvailability(product.getAvailability() - orderProduct.getQuantity());
+      productDao.update(product);
+    }
     return new OrderDTO(bdOrder);
-    //tengo que reducir stock de los productos
   }
 
   @PreAuthorize("hasAuthority('USER')")
@@ -104,7 +112,12 @@ public class OrderService {
     orderChangeDao.create(orderChange);
     orderDAO.update(bdOrder);
 
-    //esto a su vez debería devolver los productos al stock
+    for(OrderProduct orderProduct : bdOrder.getOrderProducts()) {
+      Product product = orderProduct.getProduct();
+      product.setAvailability(product.getAvailability() + orderProduct.getQuantity());
+      productDao.update(product);
+    }
+
     return new OrderDTO(bdOrder);
   }
 
@@ -123,6 +136,13 @@ public class OrderService {
 
     orderChangeDao.create(orderChange);
     orderDAO.update(bdOrder);
+
+    for(OrderProduct orderProduct : bdOrder.getOrderProducts()) {
+      Product product = orderProduct.getProduct();
+      product.setAvailability(product.getAvailability() + orderProduct.getQuantity());
+      productDao.update(product);
+    }
+
     return new OrderDTO(bdOrder);
   }
 

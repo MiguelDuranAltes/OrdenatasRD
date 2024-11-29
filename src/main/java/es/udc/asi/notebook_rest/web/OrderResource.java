@@ -34,7 +34,7 @@ public class OrderResource {
   }
 
   @PostMapping
-  public OrderDTO create(@RequestBody @Valid OrderDTO order, List<OrderProductDTO> orderProductDTOS, Errors errors) throws RequestBodyNotValidException {
+  public OrderDTO create(@RequestBody @Valid OrderDTO order, List<OrderProductDTO> orderProductDTOS, Errors errors) throws RequestBodyNotValidException, OperationNotAllowed {
     if (errors.hasErrors()) {
       throw new RequestBodyNotValidException(errors);
     }
