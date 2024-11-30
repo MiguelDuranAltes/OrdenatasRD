@@ -45,14 +45,10 @@ public class AdressResource {
     return adressService.create(adress);
   }
 
-  //Replantearse si meter un delete en AdressService que reciba un id y no un DTO
+  //Replantearse si meter un delete en AdressService que reciba un id y no un DTO -> SOLVENTADO
   @DeleteMapping("{id}")
   public void delete(@PathVariable Long id) throws NotFoundException {
-    AdressDTO adress = new AdressDTO();
-    //Vale que sea un DTO con solo el id, ya que el service es lo que utiliza, luego el DAO es el que recupera el existente
-    //en la bd para posteriormente borrarlo
-    adress.setId(id);
-    adressService.delete(adress);
+    adressService.delete(id);
   }
 }
 

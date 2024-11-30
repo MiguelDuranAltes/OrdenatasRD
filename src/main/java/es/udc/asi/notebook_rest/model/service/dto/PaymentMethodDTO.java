@@ -3,16 +3,20 @@ package es.udc.asi.notebook_rest.model.service.dto;
 
 import es.udc.asi.notebook_rest.model.domain.PaymentMethod;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
 public class PaymentMethodDTO {
-  @NotEmpty
   private Long id;
+  @Size(min = 16, max = 16, message = "La tarjeta debe tener los dígitos correctos")
   private String creditNumber;
+  @Size(min = 3, max = 3, message = "El CVV debe tener exactamente 3 dígitos")
   private String cvv;
+  @NotEmpty
   private String name;
-  private LocalDateTime expirationDate;
+  @NotEmpty
+  private String expirationDate;
 
   public PaymentMethodDTO() {
 
@@ -59,11 +63,11 @@ public class PaymentMethodDTO {
     this.name = name;
   }
 
-  public LocalDateTime getExpirationDate() {
+  public String getExpirationDate() {
     return expirationDate;
   }
 
-  public void setExpirationDate(LocalDateTime expirationDate) {
+  public void setExpirationDate(String expirationDate) {
     this.expirationDate = expirationDate;
   }
 }

@@ -54,10 +54,10 @@ public class PaymentService {
   }
 
   @Transactional(readOnly = false)
-  public void delete(PaymentMethodDTO paymentMethodDTO) throws NotFoundException {
-    PaymentMethod errasedMethod = paymentMethodDao.findById(paymentMethodDTO.getId());
+  public void delete(Long id) throws NotFoundException {
+    PaymentMethod errasedMethod = paymentMethodDao.findById(id);
     if (errasedMethod == null) {
-      throw new NotFoundException(paymentMethodDTO.getId().toString(), PaymentMethod.class);
+      throw new NotFoundException(id.toString(), PaymentMethod.class);
     }
     paymentMethodDao.delete(errasedMethod);
   }

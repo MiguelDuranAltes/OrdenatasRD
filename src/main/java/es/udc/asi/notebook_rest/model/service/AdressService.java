@@ -52,11 +52,11 @@ public class AdressService {
   }
 
   @Transactional(readOnly = false)
-  public void delete(AdressDTO adressDTO) throws NotFoundException {
-    Adress errasedAdress = adressDao.findById(adressDTO.getId());
+  public void delete(Long id) throws NotFoundException {
+    Adress errasedAdress = adressDao.findById(id);
 
     if (errasedAdress == null) {
-      throw new NotFoundException(adressDTO.getId().toString(), Adress.class);
+      throw new NotFoundException(id.toString(), Adress.class);
     }
     adressDao.delete(errasedAdress);
 

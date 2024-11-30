@@ -46,11 +46,7 @@ public class PaymentMethodResource {
 
   @DeleteMapping("{id}")
   public void delete(@PathVariable Long id) throws NotFoundException {
-    PaymentMethodDTO paymentMethod = new PaymentMethodDTO();
-    paymentMethod.setId(id);
-    //Vale que sea un DTO con solo el id, ya que el service es lo que utiliza, luego el DAO es el que recupera el existente
-    //en la bd para posteriormente borrarlo
-    paymentMethodService.delete(paymentMethod);
+    paymentMethodService.delete(id);
   }
 
 }

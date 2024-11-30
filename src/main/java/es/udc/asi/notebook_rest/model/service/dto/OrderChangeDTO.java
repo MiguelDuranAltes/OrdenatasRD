@@ -1,14 +1,23 @@
 package es.udc.asi.notebook_rest.model.service.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDateTime;
 
 public class OrderChangeDTO {
 
   private Long id;
+  @NotEmpty
   private Long orderId;
+  @NotEmpty
   private Double refund;
   private LocalDateTime date;
+  @NotEmpty
+  @Size(max = 200)
   private String text;
+  @NotEmpty
   private String type;
 
   public OrderChangeDTO() {

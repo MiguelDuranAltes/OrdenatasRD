@@ -23,7 +23,7 @@ public class PaymentMethod {
   private String name;
 
   @Column
-  private LocalDateTime expirationDate;
+  private String expirationDate;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   private User owner;
@@ -31,7 +31,7 @@ public class PaymentMethod {
   public PaymentMethod() {
     super();
   }
-  public PaymentMethod(String creditCardNumber,String cvv,String name,LocalDateTime expirationDate, User user){
+  public PaymentMethod(String creditCardNumber,String cvv,String name,String expirationDate, User user){
     this.creditCardNumber = creditCardNumber;
     this.cvv = cvv;
     this.name = name;
@@ -89,11 +89,11 @@ public class PaymentMethod {
     this.name = name;
   }
 
-  public LocalDateTime getExpirationDate() {
+  public String getExpirationDate() {
     return expirationDate;
   }
 
-  public void setExpirationDate(LocalDateTime expirationDate) {
+  public void setExpirationDate(String expirationDate) {
     this.expirationDate = expirationDate;
   }
 

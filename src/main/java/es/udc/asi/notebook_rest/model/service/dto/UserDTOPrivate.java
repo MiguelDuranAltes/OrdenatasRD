@@ -10,8 +10,8 @@ public class UserDTOPrivate {
 
   @NotEmpty
   private String login;
-
   private UserAuthority authority;
+  @NotEmpty
 
   private String password;
 

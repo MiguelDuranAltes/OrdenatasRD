@@ -49,7 +49,7 @@ public class DatabaseLoader {
     Adress adress1 = new Adress("Calle Falsa",123, 1, "Springfield", 12345, miguel);
     miguel.getAdresses().add(adress1);
     adressDao.create(adress1);
-    PaymentMethod paymentMethod1 = new PaymentMethod("1234567890123456", "123", "Miguel Duran", LocalDateTime.of(2026,12,25,0,0,0), miguel);
+    PaymentMethod paymentMethod1 = new PaymentMethod("1234567890123456", "123", "Miguel Duran", "12/26", miguel);
     miguel.getPaymentMethods().add(paymentMethod1);
     paymentMethodDao.create(paymentMethod1);
 
@@ -60,7 +60,7 @@ public class DatabaseLoader {
     Adress adress2 = new Adress("Calle Real", 456, 2, "Halloween", 12345, lucas);
     lucas.getAdresses().add(adress2);
     adressDao.create(adress2);
-    PaymentMethod paymentMethod2 = new PaymentMethod("9876543210987654", "321", "Lucas Redondo", LocalDateTime.of(2026,8,15,0,0,0), lucas);
+    PaymentMethod paymentMethod2 = new PaymentMethod("9876543210987654", "321", "Lucas Redondo", "08/26", lucas);
     lucas.getPaymentMethods().add(paymentMethod2);
     paymentMethodDao.create(paymentMethod2);
     userDAO.update(lucas);

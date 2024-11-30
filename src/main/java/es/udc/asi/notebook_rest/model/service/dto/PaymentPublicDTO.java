@@ -4,8 +4,8 @@ import es.udc.asi.notebook_rest.model.domain.PaymentMethod;
 import jakarta.validation.constraints.NotEmpty;
 
 public class PaymentPublicDTO {
-  @NotEmpty
   private Long id;
+  @NotEmpty
   private String hiddenCardNumber;
 
   public PaymentPublicDTO(){

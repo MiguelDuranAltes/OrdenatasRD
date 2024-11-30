@@ -1,8 +1,11 @@
 package es.udc.asi.notebook_rest.model.service.dto;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class OrderProductDTO {
 
   private Long productId;
+  @NotEmpty
   private Integer quantity;
 
     public OrderProductDTO() {

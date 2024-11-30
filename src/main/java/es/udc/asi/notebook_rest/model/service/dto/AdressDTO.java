@@ -2,15 +2,20 @@ package es.udc.asi.notebook_rest.model.service.dto;
 
 import es.udc.asi.notebook_rest.model.domain.Adress;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 
 public class AdressDTO {
-  @NotEmpty
   private Long id;
+  @NotEmpty
   private String street;
+  @NotEmpty
   private int door;
+  @NotEmpty
   private int portal;
+  @Size(min = 5, max = 5, message = "El código postal debe de ser de 5 dígitos")
   private int postalCode;
+  @NotEmpty
   private String city;
 
   public AdressDTO() { super();}

@@ -1,9 +1,11 @@
 package es.udc.asi.notebook_rest.model.service.dto;
 
 import es.udc.asi.notebook_rest.model.domain.User;
+import jakarta.validation.constraints.NotEmpty;
 
 public class UserDTOPublic {
   private Long id;
+  @NotEmpty
   private String login;
   private boolean blocked = true;
 

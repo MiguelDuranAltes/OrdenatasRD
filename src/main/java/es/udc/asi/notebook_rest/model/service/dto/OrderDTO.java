@@ -2,6 +2,7 @@ package es.udc.asi.notebook_rest.model.service.dto;
 
 import es.udc.asi.notebook_rest.model.domain.Order;
 import es.udc.asi.notebook_rest.model.domain.Product;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -11,11 +12,15 @@ import java.util.stream.Collectors;
 public class OrderDTO {
 
   private Long id;
+  @NotEmpty
   private String userLogin;
+  @NotEmpty
   private Double price;
   private LocalDateTime purchaseDate;
   private String status;
+  @NotEmpty
   private AdressDTO adress;
+  @NotEmpty
   private PaymentPublicDTO paymentMethod;
 
   public OrderDTO() {
