@@ -25,7 +25,7 @@ public class ProductResource {
   }
 
   @GetMapping("/{id}")
-  public ProductDTO findOne(Long id) throws NotFoundException {
+  public ProductDTO findOne(@PathVariable Long id) throws NotFoundException {
     return productService.findById(id);
   }
 

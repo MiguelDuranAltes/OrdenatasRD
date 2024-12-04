@@ -7,7 +7,7 @@ public class UserDTOPublic {
   private Long id;
   @NotEmpty
   private String login;
-  private boolean blocked = true;
+  private boolean blocked = false;
 
   public UserDTOPublic() {
   }
@@ -38,7 +38,7 @@ public class UserDTOPublic {
     return blocked;
   }
 
-  public void setActive(boolean blocked) {
+  public void setBlocked(boolean blocked) {
     this.blocked = blocked;
   }
 }

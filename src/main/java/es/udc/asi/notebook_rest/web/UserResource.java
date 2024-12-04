@@ -33,12 +33,12 @@ public class UserResource {
     return userService.findOne(id);
   }
 
-  @PutMapping("/{id}/active")
+  @PutMapping("/{id}/block")
   public UserDTOPublic block(@PathVariable Long id) throws NotFoundException, OperationNotAllowed {
     return userService.updateBlocked(id, true);
   }
 
-  @DeleteMapping("/{id}/active")
+  @DeleteMapping("/{id}/block")
   public UserDTOPublic unblock(@PathVariable Long id) throws NotFoundException, OperationNotAllowed {
     return userService.updateBlocked(id, false);
   }

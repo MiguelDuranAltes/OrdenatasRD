@@ -30,7 +30,7 @@ public class MyUserDetailsService implements UserDetailsService {
     if (user == null) {
       throw new UsernameNotFoundException("User " + login + " not found");
     }
-    if (!user.isBlocked()) {
+    if (user.isBlocked()) {
       throw new UsernameNotFoundException("User " + login + " not found");
     }
     logger.info("Loaded user {} with authority {}", login, user.getAuthority().name());

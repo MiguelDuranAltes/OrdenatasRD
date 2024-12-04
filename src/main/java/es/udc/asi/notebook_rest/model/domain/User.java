@@ -23,7 +23,7 @@ public class User {
   private UserAuthority authority;
 
   @Column
-  private boolean blocked;
+  private boolean blocked = false;
 
   @Column
   private Integer warnings;

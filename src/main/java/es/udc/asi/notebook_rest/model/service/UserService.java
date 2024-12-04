@@ -35,7 +35,7 @@ public class UserService {
     if (SecurityUtils.getCurrentUserIsAdmin()) {
       return users.collect(Collectors.toList());
     }
-    return users.filter(user -> user.isBlocked()).collect(Collectors.toList());
+    return users.filter(user -> !user.isBlocked()).collect(Collectors.toList());
   }
 
   @PreAuthorize("hasAuthority('ADMIN')")
@@ -84,7 +84,7 @@ public class UserService {
 
     UserDTOPrivate currentUser = getCurrentUserWithAuthority();
     if (currentUser.getId().equals(user.getId())) {
-      throw new OperationNotAllowed("The user cannot activate/deactive itself");
+      throw new OperationNotAllowed("The user cannot block/unblock itself");
     }
 
     user.setBlocked(blocked);
