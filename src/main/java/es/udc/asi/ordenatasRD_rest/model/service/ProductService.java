@@ -56,7 +56,7 @@ public class ProductService {
       throw new NotFoundException(productBd.getId().toString(), Product.class);
     }
     productBd.setName(product.getName());
-    productBd.setDescription(productBd.getDescription());
+    productBd.setDescription(product.getDescription());
     productBd.setPrice(product.getPrice());
     productBd.setBrand(product.getBrand());
     productBd.setAvailability(product.getAvailability());

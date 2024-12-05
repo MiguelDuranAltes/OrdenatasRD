@@ -68,11 +68,23 @@ public class DatabaseLoader {
     Product product2 = new Product("Procesador", "Descripción detallada del procesador", 200.0, "Intel", 5);
     Product product3 = new Product("Placa Base", "Descripción detallada de la placa base", 150.0, "MSI", 3);
     Product product4 = new Product("Memoria RAM", "Descripción detallada de la memoria RAM", 100.0, "Corsair", 8);
+    Product product5 = new Product("Disco Duro", "Descripción detallada del disco duro", 50.0, "Seagate", 0);
+    Product product6 = new Product("Fuente de Alimentación", "Descripción detallada de la fuente de alimentación", 80.0, "Corsair", 4);
+    Product product7 = new Product("Caja", "Descripción detallada de la caja", 70.0, "Corsair", 0);
+    Product product8 = new Product("Ventilador", "Descripción detallada del ventilador", 30.0, "Corsair", 9);
+    Product product9 = new Product("Monitor", "Descripción detallada del monitor", 200.0, "Asus", 2);
+    Product product10 = new Product("Teclado", "Descripción detallada del teclado", 100.0, "Corsair", 1);
 
     productDao.create(product1);
     productDao.create(product2);
     productDao.create(product3);
     productDao.create(product4);
+    productDao.create(product5);
+    productDao.create(product6);
+    productDao.create(product7);
+    productDao.create(product8);
+    productDao.create(product9);
+    productDao.create(product10);
 
 
     //creo que en el orderDao o Service, tengo que reducir y aumentar el stock de los productos
@@ -90,6 +102,9 @@ public class DatabaseLoader {
     order3.setOrderProducts(List.of(new OrderProduct(order3, product4, 2), new OrderProduct(order3, product1, 5)));
     orderDAO.create(order3);
     Thread.sleep(1000);
+
+    Order order4 = new Order(400.0, miguel, adress1, paymentMethod1);
+    order4.setOrderProducts(List.of(new OrderProduct(order4, product10, 2), new OrderProduct(order4, product9, 1)));
   }
 
 }

@@ -1,8 +1,7 @@
 package es.udc.asi.ordenatasRD_rest.model.service.dto;
 
 import es.udc.asi.ordenatasRD_rest.model.domain.Product;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class ProductDTO {
   private Long id;
@@ -11,9 +10,11 @@ public class ProductDTO {
   @NotEmpty
   @Size(max = 200, message = "La descripción debe tener 200 caracteres como máximo")
   private String description;
-  @NotEmpty
+  @NotNull(message = "El precio no puede ser nulo")
+  @DecimalMin(value = "0.0", inclusive = false, message = "El precio debe ser mayor a 0")
   private Double price;
-  @NotEmpty
+  @NotNull(message = "La disponibilidad no puede ser nula")
+  @Min(value = 0, message = "La disponibilidad debe ser al menos 0")
   private Integer availability;
   @NotEmpty
   private String brand;

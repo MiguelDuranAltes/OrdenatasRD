@@ -77,11 +77,13 @@ public class OrderService {
     for (OrderProductDTO orderProductDTO : orderProductDTOS) {
       Product product = productDao.findById(orderProductDTO.getProductId());
       if(orderProductDTO.getQuantity() > product.getAvailability()) {
+        orderDAO.delete(bdOrder);
         throw new OperationNotAllowed("Not enough stock for product " + product.getName());
       }
       OrderProduct orderProduct = new OrderProduct(bdOrder, product, orderProductDTO.getQuantity());
       bdOrder.getOrderProducts().add(orderProduct);
     }
+    orderDAO.update(bdOrder);
 
     for(OrderProduct orderProduct : bdOrder.getOrderProducts()) {
       Product product = orderProduct.getProduct();
