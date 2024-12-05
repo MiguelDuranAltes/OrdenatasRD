@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Notebook REST
+    name: Ordenatas REST
   datasource:
     host: localhost
     port: 5432

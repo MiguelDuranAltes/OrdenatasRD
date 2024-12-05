@@ -10,9 +10,9 @@
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
   <groupId>es.udc.asi</groupId>
-  <artifactId>notebook-rest</artifactId>
+  <artifactId>ordenatasRD-rest</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Notebook REST</name>
+  <name>Ordenatas REST</name>
   <description>Ejemplo práctica ASI</description>
   <url />
   <licenses>
