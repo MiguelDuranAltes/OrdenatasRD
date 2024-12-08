@@ -37,6 +37,8 @@ public class User {
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private List<Order> orders = new ArrayList<>();
 
+  private String imageName;
+
   public User() { }
 
   @Override
@@ -126,5 +128,13 @@ public class User {
 
   public void setOrders(List<Order> orders) {
     this.orders = orders;
+  }
+
+  public String getImageName() {
+    return imageName;
+  }
+
+  public void setImageName(String imageName) {
+    this.imageName = imageName;
   }
 }

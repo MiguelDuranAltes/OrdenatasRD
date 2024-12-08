@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import es.udc.asi.ordenatasRD_rest.model.exception.ModelException;
 import es.udc.asi.ordenatasRD_rest.model.repository.*;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import es.udc.asi.ordenatasRD_rest.model.exception.NotFoundException;
 import es.udc.asi.ordenatasRD_rest.model.exception.OperationNotAllowed;
 import es.udc.asi.ordenatasRD_rest.model.exception.UserLoginExistsException;
 import es.udc.asi.ordenatasRD_rest.security.SecurityUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -28,6 +30,9 @@ public class UserService {
 
   @Autowired
   private PasswordEncoder passwordEncoder;
+
+  @Autowired
+  private ImageService imageService;
 
   @PreAuthorize("hasAuthority('ADMIN')")
   public List<UserDTOPublic> findAll() {
@@ -114,4 +119,30 @@ public class UserService {
 
     userDAO.delete(theUser);
   }
+
+  @Transactional(readOnly = false)
+  public void saveUserImage(Long id, MultipartFile file) throws ModelException {
+    User user = userDAO.findById(id);
+    if (user == null) {
+      throw new NotFoundException(id.toString(), User.class);
+    }
+
+    if (file.isEmpty()) {
+      throw new ModelException("No se ha enviado ninguna imagen");
+    }
+
+    String nombreFichero = imageService.saveImage(file, id);
+    user.setImageName(nombreFichero);
+    userDAO.update(user);
+  }
+
+  public ImageDTO getUserImage(Long id) throws ModelException {
+    User user = userDAO.findById(id);
+    if (user == null) {
+      throw new NotFoundException(id.toString(), User.class);
+    }
+
+    return imageService.getImage(id, user.getImageName());
+  }
+
 }

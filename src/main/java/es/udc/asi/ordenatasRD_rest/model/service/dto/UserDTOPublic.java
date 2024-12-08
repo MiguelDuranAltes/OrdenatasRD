@@ -8,6 +8,7 @@ public class UserDTOPublic {
   @NotEmpty
   private String login;
   private boolean blocked = false;
+  private boolean hasImage = false;
 
   public UserDTOPublic() {
   }
@@ -16,6 +17,7 @@ public class UserDTOPublic {
     this.id = user.getId();
     this.login = user.getLogin();
     this.blocked = user.isBlocked();
+    this.hasImage = user.getImageName() != null;
   }
 
   public Long getId() {
@@ -40,5 +42,9 @@ public class UserDTOPublic {
 
   public void setBlocked(boolean blocked) {
     this.blocked = blocked;
+  }
+
+  public boolean getHasImage() {
+    return hasImage;
   }
 }
