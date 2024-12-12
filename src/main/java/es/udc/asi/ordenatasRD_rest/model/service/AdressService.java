@@ -29,7 +29,8 @@ public class AdressService {
   private UserService userService;
 
   public List<AdressDTO> findByUser(String login){
-    Collection<Adress> adresses = adressDao.findByUser(login);
+    User user = userDao.findByLogin(login);
+    Collection<Adress> adresses = adressDao.findByUser(user);
     return adresses.stream().map(adress -> new AdressDTO(adress)).collect(Collectors.toList());
   }
 

@@ -1,6 +1,7 @@
 package es.udc.asi.ordenatasRD_rest.model.repository;
 
 import es.udc.asi.ordenatasRD_rest.model.domain.PaymentMethod;
+import es.udc.asi.ordenatasRD_rest.model.domain.User;
 
 import java.util.Collection;
 
@@ -15,6 +16,6 @@ public interface PaymentMethodDao {
 
   PaymentMethod findById(Long id);
 
-  Collection<PaymentMethod> findByUser(String login);
+  Collection<PaymentMethod> findByUser(User user);
 
 }

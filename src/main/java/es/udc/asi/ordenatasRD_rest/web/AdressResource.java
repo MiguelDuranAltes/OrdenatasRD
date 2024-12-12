@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 //Vamos a coger solo las direcciones en relacion a un usuario, no se van a coger todas las registradas
 //No va a haber un /users/adresses, sino un /users/id/adresses
-@RequestMapping("/api/users/id/adresses")
+@RequestMapping("/api/adresses")
 public class AdressResource {
 
   @Autowired
@@ -25,15 +25,11 @@ public class AdressResource {
   @Autowired
   private UserService userService;
 
-  @GetMapping
-  public List<AdressDTO> findAll(@PathVariable Long id) throws NotFoundException {
-    UserWithOrdersDTO user = userService.findOne(id);
+  @GetMapping("/{userId}")
+  public List<AdressDTO> findAll(@PathVariable Long userId) throws NotFoundException {
+    System.out.println("userId: " + userId);
+    UserWithOrdersDTO user = userService.findOne(userId);
     return adressService.findByUser(user.getLogin());
-  }
-
-  @GetMapping("/{id}")
-  public AdressDTO findOne(@PathVariable Long id) throws NotFoundException {
-    return adressService.findById(id);
   }
 
   @PostMapping

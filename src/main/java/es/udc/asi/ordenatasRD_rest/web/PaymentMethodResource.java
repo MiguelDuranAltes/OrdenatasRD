@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users/id/paymethods")
+@RequestMapping("/api/paymethods")
 public class PaymentMethodResource {
 
   @Autowired
@@ -24,15 +24,10 @@ public class PaymentMethodResource {
   @Autowired
   private UserService userService;
 
-  @GetMapping // La excepción NotFoundException es por si da fallo el userService.findOne
-  public List<PaymentPublicDTO> findAll(@PathVariable Long id) throws NotFoundException {
-    UserWithOrdersDTO user = userService.findOne(id);
+  @GetMapping("/{userId}") // La excepción NotFoundException es por si da fallo el userService.findOne
+  public List<PaymentPublicDTO> findAll(@PathVariable Long userId) throws NotFoundException {
+    UserWithOrdersDTO user = userService.findOne(userId);
     return paymentMethodService.findByUser(user.getLogin());
-  }
-
-  @GetMapping("/{id}")
-  public PaymentPublicDTO findOne(@PathVariable Long id) throws NotFoundException {
-    return paymentMethodService.findById(id);
   }
 
   @PostMapping //No hace falta el usuario, ya que el PaymentService ya lo coge del contexto

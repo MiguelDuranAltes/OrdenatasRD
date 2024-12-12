@@ -28,7 +28,8 @@ public class PaymentService {
 
   public List<PaymentPublicDTO> findByUser(String login){
 
-    Collection<PaymentMethod> paymentMethods = paymentMethodDao.findByUser(login);
+    User user = userDAO.findByLogin(login);
+    Collection<PaymentMethod> paymentMethods = paymentMethodDao.findByUser(user);
 
     return paymentMethods.stream().map(paymentMethod -> new PaymentPublicDTO(paymentMethod)).collect(Collectors.toList());
   }

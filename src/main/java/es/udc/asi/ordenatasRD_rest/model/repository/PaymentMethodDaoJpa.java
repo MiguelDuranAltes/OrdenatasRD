@@ -1,6 +1,7 @@
 package es.udc.asi.ordenatasRD_rest.model.repository;
 
 import es.udc.asi.ordenatasRD_rest.model.domain.PaymentMethod;
+import es.udc.asi.ordenatasRD_rest.model.domain.User;
 import es.udc.asi.ordenatasRD_rest.model.repository.util.GenericDaoJpa;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
@@ -22,14 +23,14 @@ public class PaymentMethodDaoJpa extends GenericDaoJpa implements PaymentMethodD
   public PaymentMethod findById(Long id) { return entityManager.find(PaymentMethod.class, id); }
 
   @Override
-  public Collection<PaymentMethod> findByUser(String login) {
+  public Collection<PaymentMethod> findByUser(User user) {
 
     String queryStr = "select pm from PaymentMethod pm";
-    queryStr += " where pm.user.login = :login";
+    queryStr += " where pm.owner = :user";
 
     TypedQuery<PaymentMethod> query = entityManager.createQuery(queryStr, PaymentMethod.class);
 
-    query.setParameter("login", login);
+    query.setParameter("user", user);
 
     return query.getResultList();
   }

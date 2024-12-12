@@ -1,6 +1,7 @@
 package es.udc.asi.ordenatasRD_rest.model.repository;
 
 import es.udc.asi.ordenatasRD_rest.model.domain.Adress;
+import es.udc.asi.ordenatasRD_rest.model.domain.User;
 import es.udc.asi.ordenatasRD_rest.model.repository.util.GenericDaoJpa;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
@@ -24,14 +25,14 @@ public class AdressDaoJpa extends GenericDaoJpa implements AdressDao{
   public Adress findById(Long id) { return entityManager.find(Adress.class, id); }
 
   @Override
-  public Collection<Adress> findByUser(String login) {
+  public Collection<Adress> findByUser(User user) {
 
     String queryStr = "select a from Adress a";
-    queryStr += " where a.user.login = :login";
+    queryStr += " where a.owner = :user";
 
     TypedQuery<Adress> query = entityManager.createQuery(queryStr, Adress.class);
 
-    query.setParameter("login", login);
+    query.setParameter("user", user);
 
     return query.getResultList();
   }
