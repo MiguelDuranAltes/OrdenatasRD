@@ -46,10 +46,14 @@ public class DatabaseLoader {
 
     User miguel = userDAO.findByLogin("miguel");
     Adress adress1 = new Adress("Calle Falsa",123, 1, "Springfield", 12345, miguel);
+    Adress adress3 = new Adress("Calle ASecas",33, 11, "Poznan", 33446, miguel);
     miguel.getAdresses().add(adress1);
+    miguel.getAdresses().add(adress3);
     adressDao.create(adress1);
     PaymentMethod paymentMethod1 = new PaymentMethod("1234567890123456", "123", "Miguel Duran", "12/26", miguel);
+    PaymentMethod paymentMethod3 = new PaymentMethod("4321567890999999", "321", "Miguel Duran", "12/28", miguel);
     miguel.getPaymentMethods().add(paymentMethod1);
+    miguel.getPaymentMethods().add(paymentMethod3);
     paymentMethodDao.create(paymentMethod1);
 
     //tengo que hacer el adressDao.create(adress1)?
@@ -57,7 +61,9 @@ public class DatabaseLoader {
 
     User lucas = userDAO.findByLogin("lucas");
     Adress adress2 = new Adress("Calle Real", 456, 2, "Halloween", 12345, lucas);
+    Adress adress4 = new Adress("Vegamot", 202, 4, "Trondheim", 13003, lucas);
     lucas.getAdresses().add(adress2);
+    lucas.getAdresses().add(adress4);
     adressDao.create(adress2);
     PaymentMethod paymentMethod2 = new PaymentMethod("9876543210987654", "321", "Lucas Redondo", "08/26", lucas);
     lucas.getPaymentMethods().add(paymentMethod2);

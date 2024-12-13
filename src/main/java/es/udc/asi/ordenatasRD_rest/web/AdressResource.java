@@ -27,7 +27,6 @@ public class AdressResource {
 
   @GetMapping("/{userId}")
   public List<AdressDTO> findAll(@PathVariable Long userId) throws NotFoundException {
-    System.out.println("userId: " + userId);
     UserWithOrdersDTO user = userService.findOne(userId);
     return adressService.findByUser(user.getLogin());
   }
