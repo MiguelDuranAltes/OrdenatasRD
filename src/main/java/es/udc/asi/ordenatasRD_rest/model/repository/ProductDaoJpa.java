@@ -39,11 +39,11 @@ public class ProductDaoJpa extends GenericDaoJpa implements ProductDao{
       //Comprobar si la marca existe, aqui o en el front?
       String queryStr = "select p from Product p";
 
-      queryStr += " where p.brand = :brand";
+      queryStr += " where lower(p.brand) = :brand";
 
       TypedQuery<Product> query = entityManager.createQuery(queryStr, Product.class);
 
-      query.setParameter("brand", brand);
+      query.setParameter("brand", brand.toLowerCase());
       return query.getResultList();
     }
 
