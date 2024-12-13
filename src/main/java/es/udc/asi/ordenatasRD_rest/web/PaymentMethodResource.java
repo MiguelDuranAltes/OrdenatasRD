@@ -21,13 +21,9 @@ public class PaymentMethodResource {
   @Autowired
   private PaymentService paymentMethodService;
 
-  @Autowired
-  private UserService userService;
-
-  @GetMapping("/{userId}") // La excepción NotFoundException es por si da fallo el userService.findOne
-  public List<PaymentPublicDTO> findAll(@PathVariable Long userId) throws NotFoundException {
-    UserWithOrdersDTO user = userService.findOne(userId);
-    return paymentMethodService.findByUser(user.getLogin());
+  @GetMapping("/{login}") // La excepción NotFoundException es por si da fallo el userService.findOne
+  public List<PaymentPublicDTO> findAll(@PathVariable String login) throws NotFoundException {
+    return paymentMethodService.findByUser(login);
   }
 
   @PostMapping //No hace falta el usuario, ya que el PaymentService ya lo coge del contexto
