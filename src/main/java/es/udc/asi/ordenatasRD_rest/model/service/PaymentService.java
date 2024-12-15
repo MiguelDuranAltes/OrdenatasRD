@@ -1,5 +1,6 @@
 package es.udc.asi.ordenatasRD_rest.model.service;
 
+import es.udc.asi.ordenatasRD_rest.model.domain.Adress;
 import es.udc.asi.ordenatasRD_rest.model.domain.PaymentMethod;
 import es.udc.asi.ordenatasRD_rest.model.domain.User;
 import es.udc.asi.ordenatasRD_rest.model.exception.NotFoundException;
@@ -54,12 +55,20 @@ public class PaymentService {
 
   @Transactional(readOnly = false)
   public void delete(Long id) throws NotFoundException {
+    //Compruebo si el método existe
     PaymentMethod errasedMethod = paymentMethodDao.findById(id);
     if (errasedMethod == null) {
-      throw new NotFoundException(id.toString(), PaymentMethod.class);
+      throw new NotFoundException(id.toString(), Adress.class);
     }
-    paymentMethodDao.delete(errasedMethod);
+    //Veo si la elimino, o simplemente la desvinculo en caso de que se haya usado en un pedido
+    if (paymentMethodDao.isMethodUsedInOrders(errasedMethod)) {
+      // El método se ha usado en un pedido, se desvincula
+      errasedMethod.setOwner(null);
+      paymentMethodDao.update(errasedMethod);
+    } else {
+      // La dirección no se ha usado, elimínala
+      paymentMethodDao.delete(errasedMethod);
+    }
   }
-
 
 }

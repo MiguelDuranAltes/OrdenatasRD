@@ -34,4 +34,13 @@ public class PaymentMethodDaoJpa extends GenericDaoJpa implements PaymentMethodD
 
     return query.getResultList();
   }
+
+  @Override
+  public boolean isMethodUsedInOrders(PaymentMethod method) {
+    String queryStr = "select count(o) from Order o where o.paymentMethod = :method";
+    Long count = entityManager.createQuery(queryStr, Long.class)
+      .setParameter("method", method)
+      .getSingleResult();
+    return count > 0;
+  }
 }

@@ -17,4 +17,5 @@ public interface AdressDao {
 
   Collection<Adress> findByUser(User user);
 
+    boolean isAdressUsedInOrders(Adress adress);
 }

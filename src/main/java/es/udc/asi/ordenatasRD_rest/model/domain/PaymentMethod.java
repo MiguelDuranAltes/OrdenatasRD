@@ -24,7 +24,7 @@ public class PaymentMethod {
   @Column
   private String expirationDate;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = true)
   private User owner;
 
   public PaymentMethod() {

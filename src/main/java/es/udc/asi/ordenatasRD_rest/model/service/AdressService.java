@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,13 +54,52 @@ public class AdressService {
 
   @Transactional(readOnly = false)
   public void delete(Long id) throws NotFoundException {
+    //Compruebo si la direccion existe
     Adress errasedAdress = adressDao.findById(id);
-
     if (errasedAdress == null) {
       throw new NotFoundException(id.toString(), Adress.class);
     }
-    adressDao.delete(errasedAdress);
+    //Veo si la elimino, o simplemente la desvinculo en caso de que se haya usado en un pedido
+      if (adressDao.isAdressUsedInOrders(errasedAdress)) {
+        // La dirección se ha usado en un pedido, desvincúlala
+        errasedAdress.setOwner(null);
+        adressDao.update(errasedAdress);
+      } else {
+        // La dirección no se ha usado, elimínala
+        adressDao.delete(errasedAdress);
+      }
+  }
 
+  @Transactional
+  public void eliminateUserAdresses(Long userId) throws NotFoundException {
+    User user = userDao.findById(userId);
+    if (user == null) {
+      throw new NotFoundException(userId.toString(), User.class);
+    }
+    List<Adress> adresses = new ArrayList<>(user.getAdresses());
+    for (Adress adress : adresses) {
+      if (adressDao.isAdressUsedInOrders(adress)) {
+        // La dirección se ha usado en un pedido, desvincúlala
+        adress.setOwner(null);
+        adressDao.update(adress);
+      } else {
+        // La dirección no se ha usado, elimínala
+        adressDao.delete(adress);
+      }
+    }
+  }
+  public AdressDTO update(AdressDTO adress) throws NotFoundException {
+    Adress updatedAdress = adressDao.findById(adress.getId());
+    if (updatedAdress == null) {
+      throw new NotFoundException(adress.getId().toString(), Adress.class);
+    }
+    updatedAdress.setStreet(adress.getStreet());
+    updatedAdress.setDoor(adress.getDoor());
+    updatedAdress.setPortal(adress.getPortal());
+    updatedAdress.setCity(adress.getCity());
+    updatedAdress.setPostalCode(adress.getPostalCode());
+    adressDao.update(updatedAdress);
+    return new AdressDTO(updatedAdress);
   }
 
 }

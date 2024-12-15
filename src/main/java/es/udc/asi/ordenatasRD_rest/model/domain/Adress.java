@@ -27,7 +27,7 @@ public class Adress {
   @Column
   private Integer postalCode;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = true)
   private User owner;
 
 

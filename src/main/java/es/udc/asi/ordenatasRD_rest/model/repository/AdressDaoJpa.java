@@ -36,4 +36,13 @@ public class AdressDaoJpa extends GenericDaoJpa implements AdressDao{
 
     return query.getResultList();
   }
+
+  @Override
+  public boolean isAdressUsedInOrders(Adress adress) {
+    String queryStr = "select count(o) from Order o where o.adress = :adress";
+    Long count = entityManager.createQuery(queryStr, Long.class)
+      .setParameter("adress", adress)
+      .getSingleResult();
+    return count > 0;
+  }
 }
