@@ -64,7 +64,7 @@ public class SecurityConfiguration {
         .requestMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
         .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
         .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
-        .requestMatchers(HttpMethod.GET, "/api/users/**").hasAnyAuthority(UserAuthority.ADMIN.toString())
+        .requestMatchers(HttpMethod.GET, "/api/users/**").permitAll()
         .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll() // Debería ser authenticated, pero para poder tener un GET abierto para las pruebas lo dejamos en permitAllﬁ
         .requestMatchers("/**").authenticated())
       .with(securityConfigurerAdapter(), Customizer.withDefaults());
