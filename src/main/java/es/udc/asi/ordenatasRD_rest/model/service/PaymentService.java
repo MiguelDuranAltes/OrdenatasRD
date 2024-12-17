@@ -58,7 +58,7 @@ public class PaymentService {
     //Compruebo si el método existe
     PaymentMethod errasedMethod = paymentMethodDao.findById(id);
     if (errasedMethod == null) {
-      throw new NotFoundException(id.toString(), Adress.class);
+      throw new NotFoundException(id.toString(), PaymentMethod.class);
     }
     //Veo si la elimino, o simplemente la desvinculo en caso de que se haya usado en un pedido
     if (paymentMethodDao.isMethodUsedInOrders(errasedMethod)) {
@@ -70,5 +70,4 @@ public class PaymentService {
       paymentMethodDao.delete(errasedMethod);
     }
   }
-
 }

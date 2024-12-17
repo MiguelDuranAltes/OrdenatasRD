@@ -29,7 +29,7 @@ public class Order {
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<OrderProduct> orderProducts = new ArrayList<>();
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = true)
   private User user;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -47,7 +47,7 @@ public class Order {
   }
 
   public Order(Double price, User user,
-      Adress adress, PaymentMethod paymentMethod) {
+               Adress adress, PaymentMethod paymentMethod) {
     super();
     this.price = price;
     this.user = user;

@@ -69,37 +69,4 @@ public class AdressService {
         adressDao.delete(errasedAdress);
       }
   }
-
-  @Transactional
-  public void eliminateUserAdresses(Long userId) throws NotFoundException {
-    User user = userDao.findById(userId);
-    if (user == null) {
-      throw new NotFoundException(userId.toString(), User.class);
-    }
-    List<Adress> adresses = new ArrayList<>(user.getAdresses());
-    for (Adress adress : adresses) {
-      if (adressDao.isAdressUsedInOrders(adress)) {
-        // La dirección se ha usado en un pedido, desvincúlala
-        adress.setOwner(null);
-        adressDao.update(adress);
-      } else {
-        // La dirección no se ha usado, elimínala
-        adressDao.delete(adress);
-      }
-    }
-  }
-  public AdressDTO update(AdressDTO adress) throws NotFoundException {
-    Adress updatedAdress = adressDao.findById(adress.getId());
-    if (updatedAdress == null) {
-      throw new NotFoundException(adress.getId().toString(), Adress.class);
-    }
-    updatedAdress.setStreet(adress.getStreet());
-    updatedAdress.setDoor(adress.getDoor());
-    updatedAdress.setPortal(adress.getPortal());
-    updatedAdress.setCity(adress.getCity());
-    updatedAdress.setPostalCode(adress.getPostalCode());
-    adressDao.update(updatedAdress);
-    return new AdressDTO(updatedAdress);
-  }
-
 }

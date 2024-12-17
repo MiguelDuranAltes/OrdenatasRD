@@ -34,6 +34,9 @@ public class UserService {
   @Autowired
   private ImageService imageService;
 
+  @Autowired
+  private UserAdressPaymentService helperService;
+
   @PreAuthorize("hasAuthority('ADMIN')")
   public List<UserDTOPublic> findAll() {
     Stream<UserDTOPublic> users = userDAO.findAll().stream().map(user -> new UserDTOPublic(user));
@@ -116,6 +119,11 @@ public class UserService {
     if (currentUser.getId().equals(theUser.getId())) {
       throw new OperationNotAllowed("The user cannot remove itself");
     }
+
+    //BORRAR ADRESSES, PAYMENTMETHODS Y DESVINCULAR ORDERS
+    helperService.eliminateUserAdresses(id);
+    helperService.eliminateUsersMethods(id);
+    helperService.desvincularOrders(id);
 
     userDAO.delete(theUser);
   }
