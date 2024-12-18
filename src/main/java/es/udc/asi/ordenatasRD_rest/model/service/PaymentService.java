@@ -45,7 +45,7 @@ public class PaymentService {
   public PaymentMethodDTO create(PaymentMethodDTO paymentMethod){
 
     User currentUser = userDAO.findById(userService.getCurrentUserWithAuthority().getId());
-    PaymentMethod paymentMethodFinal = new PaymentMethod(paymentMethod.getCreditNumber(), paymentMethod.getCvv(), paymentMethod.getName(),
+    PaymentMethod paymentMethodFinal = new PaymentMethod(paymentMethod.getCreditCardNumber(), paymentMethod.getCvv(), paymentMethod.getName(),
       paymentMethod.getExpirationDate(),currentUser);
     paymentMethodDao.create(paymentMethodFinal);
     currentUser.getPaymentMethods().add(paymentMethodFinal);

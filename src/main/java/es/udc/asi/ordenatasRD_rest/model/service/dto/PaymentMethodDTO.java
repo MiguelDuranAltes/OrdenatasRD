@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 public class PaymentMethodDTO {
   private Long id;
   @Size(min = 16, max = 16, message = "La tarjeta debe tener los dígitos correctos")
-  private String creditNumber;
+  private String creditCardNumber;
   @Size(min = 3, max = 3, message = "El CVV debe tener exactamente 3 dígitos")
   private String cvv;
   @NotEmpty
@@ -22,7 +22,7 @@ public class PaymentMethodDTO {
 
   public PaymentMethodDTO(PaymentMethod PaymentMethod) {
     this.id = PaymentMethod.getId();
-    this.creditNumber = PaymentMethod.getCreditCardNumber();
+    this.creditCardNumber = PaymentMethod.getCreditCardNumber();
     this.cvv = PaymentMethod.getCvv();
     this.name = PaymentMethod.getName();
     this.expirationDate = PaymentMethod.getExpirationDate();
@@ -37,12 +37,12 @@ public class PaymentMethodDTO {
     this.id = id;
   }
 
-  public String getCreditNumber() {
-    return creditNumber;
+  public String getCreditCardNumber() {
+    return creditCardNumber;
   }
 
   public void setCreditNumber(String creditNumber) {
-    this.creditNumber = creditNumber;
+    this.creditCardNumber = creditNumber;
   }
 
   public String getCvv() {

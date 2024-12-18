@@ -1,20 +1,19 @@
 package es.udc.asi.ordenatasRD_rest.model.service.dto;
 
 import es.udc.asi.ordenatasRD_rest.model.domain.Adress;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 
 
 public class AdressDTO {
   private Long id;
   @NotEmpty
   private String street;
-  @NotEmpty
   private int door;
-  @NotEmpty
   private int portal;
-  @Size(min = 5, max = 5, message = "El código postal debe de ser de 5 dígitos")
-  private int postalCode;
+  @Min(value = 1000, message = "El código postal debe ser mayor o igual a 1000")
+  @Max(value = 99999, message = "El código postal debe ser menor o igual a 99999")  private int postalCode;
   @NotEmpty
   private String city;
 
