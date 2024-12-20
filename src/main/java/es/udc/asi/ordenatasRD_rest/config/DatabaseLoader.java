@@ -65,9 +65,11 @@ public class DatabaseLoader {
     lucas.getAdresses().add(adress2);
     lucas.getAdresses().add(adress4);
     adressDao.create(adress2);
+    adressDao.create(adress4);
     PaymentMethod paymentMethod2 = new PaymentMethod("9876543210987654", "321", "Lucas Redondo", "08/26", lucas);
     lucas.getPaymentMethods().add(paymentMethod2);
     paymentMethodDao.create(paymentMethod2);
+    //lucas.setImageName("descarga.jpeg");
     userDAO.update(lucas);
 
     Product product1 = new Product("Tarjeta Gráfica", "Descripción detallada de la tarjeta", 300.0, "Asus", 10);

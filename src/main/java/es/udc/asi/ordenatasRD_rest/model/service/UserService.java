@@ -48,7 +48,7 @@ public class UserService {
 
   @PreAuthorize("hasAuthority('ADMIN')")
   //Con Orders, prq me va a hacer falta para mostrar sus orders asociados
-  public UserWithOrdersDTO findOne(Long id) throws NotFoundException {
+  public UserWithOrdersDTO findOneOrders(Long id) throws NotFoundException {
     User user = userDAO.findById(id);
     if (user == null) {
       throw new NotFoundException(id.toString(), User.class);
@@ -56,6 +56,13 @@ public class UserService {
     return new UserWithOrdersDTO(user);
   }
 
+  public UserDTOPublic findOne(Long id) throws NotFoundException {
+    User user = userDAO.findById(id);
+    if (user == null) {
+      throw new NotFoundException(id.toString(), User.class);
+    }
+    return new UserDTOPublic(user);
+  }
 
   @Transactional(readOnly = false)
   public void registerUser(String login, String password) throws UserLoginExistsException {

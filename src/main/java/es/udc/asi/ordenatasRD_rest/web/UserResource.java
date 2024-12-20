@@ -29,8 +29,13 @@ public class UserResource {
     return userService.findAll();
   }
 
+  @GetMapping("/{id}/orders")
+  public UserWithOrdersDTO findOneOrders(@PathVariable Long id) throws NotFoundException {
+    return userService.findOneOrders(id);
+  }
+
   @GetMapping("/{id}")
-  public UserWithOrdersDTO findOne(@PathVariable Long id) throws NotFoundException {
+  public UserDTOPublic findOne(@PathVariable Long id) throws NotFoundException {
     return userService.findOne(id);
   }
 
