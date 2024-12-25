@@ -3,6 +3,7 @@ package es.udc.asi.ordenatasRD_rest.model.service.dto;
 import es.udc.asi.ordenatasRD_rest.model.domain.Order;
 import es.udc.asi.ordenatasRD_rest.model.domain.Product;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,13 +14,13 @@ public class OrderDTO {
   private Long id;
   @NotEmpty
   private String userLogin;
-  @NotEmpty
+  @NotNull(message = "El precio no puede ser nulo")
   private Double price;
   private LocalDateTime purchaseDate;
   private String status;
-  @NotEmpty
+  @NotNull
   private AdressDTO adress;
-  @NotEmpty
+  @NotNull
   private PaymentPublicDTO paymentMethod;
 
   public OrderDTO() {

@@ -16,4 +16,4 @@ properties:
   clientHost: http://localhost:1234
   jwtSecretKey: hjnasedofhoiautf3qwe7r89q234ro23ubq2o9q24rqg23ba0
   jwtValidity: 7200
-  ruta-imagenes: C:\Users\Public\Pictures\ASI
+  ruta-imagenes: C:\Users\Public\Pictures\ASI\

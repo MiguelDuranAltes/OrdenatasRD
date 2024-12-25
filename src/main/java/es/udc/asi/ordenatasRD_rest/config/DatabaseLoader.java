@@ -55,6 +55,7 @@ public class DatabaseLoader {
     miguel.getPaymentMethods().add(paymentMethod1);
     miguel.getPaymentMethods().add(paymentMethod3);
     paymentMethodDao.create(paymentMethod1);
+    miguel.setImageName("lego.jpeg");
 
     //tengo que hacer el adressDao.create(adress1)?
     userDAO.update(miguel);
