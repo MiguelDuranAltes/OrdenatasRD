@@ -27,8 +27,8 @@ public class PaymentService {
   @Autowired
   private UserService userService;
 
-  public List<PaymentPublicDTO> findByUser(String login){
-    User user = userDAO.findByLogin(login);
+  public List<PaymentPublicDTO> findByUser(Long id){
+    User user = userDAO.findById(id);
     Collection<PaymentMethod> paymentMethods = paymentMethodDao.findByUser(user);
     return paymentMethods.stream().map(paymentMethod -> new PaymentPublicDTO(paymentMethod)).collect(Collectors.toList());
   }

@@ -22,9 +22,9 @@ public class AdressResource {
   @Autowired
   private AdressService adressService;
 
-  @GetMapping("/{login}")
-  public List<AdressDTO> findAll(@PathVariable String login) throws NotFoundException {
-    return adressService.findByUser(login);
+  @GetMapping("/{id}")
+  public List<AdressDTO> findAll(@PathVariable Long id) throws NotFoundException {
+    return adressService.findByUser(id);
   }
 
   @PostMapping
