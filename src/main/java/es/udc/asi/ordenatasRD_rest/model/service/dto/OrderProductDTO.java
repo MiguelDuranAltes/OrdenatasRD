@@ -11,6 +11,10 @@ public class OrderProductDTO {
     public OrderProductDTO() {
       super();
     }
+    public OrderProductDTO(Long productId, Integer quantity) {
+      this.productId = productId;
+      this.quantity = quantity;
+    }
 
     public Long getProductId() {
       return productId;

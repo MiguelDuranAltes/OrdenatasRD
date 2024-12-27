@@ -11,7 +11,9 @@ public class OrderRequest {
   @Valid
   private List<OrderProductDTO> orderProducts;
 
-  public OrderRequest() {
+  public OrderRequest(OrderDTO order, List<OrderProductDTO> orderProducts) {
+    this.order = order;
+    this.orderProducts = orderProducts;
   }
 
   public OrderDTO getOrder() {

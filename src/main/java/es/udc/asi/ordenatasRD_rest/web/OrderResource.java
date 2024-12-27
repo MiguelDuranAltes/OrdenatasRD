@@ -5,6 +5,7 @@ import es.udc.asi.ordenatasRD_rest.model.exception.NotFoundException;
 import es.udc.asi.ordenatasRD_rest.model.exception.OperationNotAllowed;
 import es.udc.asi.ordenatasRD_rest.model.service.OrderService;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.OrderDTO;
+import es.udc.asi.ordenatasRD_rest.model.service.dto.OrderProductDTO;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.OrderRequest;
 import es.udc.asi.ordenatasRD_rest.web.exceptions.IdAndBodyNotMatchingOnUpdateException;
 import es.udc.asi.ordenatasRD_rest.web.exceptions.RequestBodyNotValidException;
@@ -14,6 +15,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -30,6 +32,13 @@ public class OrderResource {
   @GetMapping("/{id}")
   public OrderDTO findOne(@PathVariable Long id) throws NotFoundException {
     return orderService.findById(id);
+  }
+
+  @GetMapping("/{id}/products")
+  public OrderRequest findProducts(@PathVariable Long id) throws NotFoundException {
+    OrderDTO order = orderService.findById(id);
+    List<OrderProductDTO> pedidos = orderService.findProducts(id);
+    return new OrderRequest(order, pedidos);
   }
 
   @PostMapping

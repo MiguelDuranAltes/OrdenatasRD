@@ -4,10 +4,7 @@ import es.udc.asi.ordenatasRD_rest.model.domain.*;
 import es.udc.asi.ordenatasRD_rest.model.exception.NotFoundException;
 import es.udc.asi.ordenatasRD_rest.model.exception.OperationNotAllowed;
 import es.udc.asi.ordenatasRD_rest.model.repository.*;
-import es.udc.asi.ordenatasRD_rest.model.service.dto.OrderChangeDTO;
-import es.udc.asi.ordenatasRD_rest.model.service.dto.OrderDTO;
-import es.udc.asi.ordenatasRD_rest.model.service.dto.OrderProductDTO;
-import es.udc.asi.ordenatasRD_rest.model.service.dto.UserDTOPrivate;
+import es.udc.asi.ordenatasRD_rest.model.service.dto.*;
 import es.udc.asi.ordenatasRD_rest.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,6 +50,12 @@ public class OrderService {
       orders = orderDAO.findByUser(SecurityUtils.getCurrentUserLogin()).stream();
     }
     return orders.map(order -> new OrderDTO(order)).collect(Collectors.toList());
+  }
+
+  public List<OrderProductDTO> findProducts(Long id) throws NotFoundException {
+    Order order = orderDAO.findById(id);
+    List<OrderProduct> orderProducts = order.getOrderProducts();
+    return orderProducts.stream().map(orderProduct -> new OrderProductDTO(orderProduct.getId(),orderProduct.getQuantity())).collect(Collectors.toList());
   }
 
   public OrderDTO findById(Long id) throws NotFoundException {
