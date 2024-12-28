@@ -4,6 +4,7 @@ import es.udc.asi.ordenatasRD_rest.model.domain.Order;
 import es.udc.asi.ordenatasRD_rest.model.exception.NotFoundException;
 import es.udc.asi.ordenatasRD_rest.model.exception.OperationNotAllowed;
 import es.udc.asi.ordenatasRD_rest.model.service.OrderService;
+import es.udc.asi.ordenatasRD_rest.model.service.dto.OrderChangeDTO;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.OrderDTO;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.OrderProductDTO;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.OrderRequest;
@@ -63,5 +64,11 @@ public class OrderResource {
     }
 
     return orderService.update(order);
+  }
+
+  @PostMapping("/{id}/cancel")
+  public OrderDTO cancel(@PathVariable Long id,  @RequestBody @Valid OrderChangeDTO cancelacion) throws NotFoundException, OperationNotAllowed {
+    OrderDTO order = orderService.findById(id);
+    return orderService.cancelOrder(order, cancelacion);
   }
 }
