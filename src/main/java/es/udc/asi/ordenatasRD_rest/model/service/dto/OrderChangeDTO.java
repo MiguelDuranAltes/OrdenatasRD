@@ -1,6 +1,7 @@
 package es.udc.asi.ordenatasRD_rest.model.service.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
@@ -8,9 +9,9 @@ import java.time.LocalDateTime;
 public class OrderChangeDTO {
 
   private Long id;
-  @NotEmpty
+  @NotNull
   private Long orderId;
-  @NotEmpty
+  @NotNull
   private Double refund;
   private LocalDateTime date;
   @NotEmpty
@@ -21,6 +22,14 @@ public class OrderChangeDTO {
 
   public OrderChangeDTO() {
     super();
+  }
+
+  public OrderChangeDTO(OrderDTO order, LocalDateTime date, String text, String type){
+    this.orderId = order.getId();
+    this.refund = order.getPrice();
+    this.date = date;
+    this.text = text;
+    this.type = type;
   }
 
   public Long getId() {
