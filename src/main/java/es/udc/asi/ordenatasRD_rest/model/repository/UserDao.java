@@ -18,4 +18,6 @@ public interface UserDao {
 
   void delete(User user);
 
+  void flush();
+
 }

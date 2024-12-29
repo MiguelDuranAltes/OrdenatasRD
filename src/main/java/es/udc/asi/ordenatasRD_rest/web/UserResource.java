@@ -55,7 +55,7 @@ public class UserResource {
   }
 
   @GetMapping("/{id}/imagen")
-  public void recuperarImagenDeNota(@PathVariable Long id, HttpServletResponse response) throws ModelException {
+  public void recuperarImagen(@PathVariable Long id, HttpServletResponse response) throws ModelException {
     ImageDTO imagen = userService.getUserImage(id);
 
     try {
@@ -69,7 +69,12 @@ public class UserResource {
   }
 
   @PostMapping("/{id}/imagen")
-  public void guardarImagenDeNota(@PathVariable Long id, @RequestParam MultipartFile file) throws ModelException {
+  public void guardarImagen(@PathVariable Long id, @RequestParam MultipartFile file) throws ModelException {
     userService.saveUserImage(id, file);
+  }
+
+  @DeleteMapping("/{id}/imagen")
+  public void borrarImagen(@PathVariable Long id) throws ModelException {
+    userService.deleteUserImage(id);
   }
 }

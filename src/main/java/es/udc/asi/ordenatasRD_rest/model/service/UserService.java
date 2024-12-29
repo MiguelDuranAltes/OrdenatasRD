@@ -160,4 +160,16 @@ public class UserService {
     return imageService.getImage(id, user.getImageName());
   }
 
+  public void deleteUserImage(Long id) throws ModelException {
+    User user = userDAO.findById(id);
+    if (user == null) {
+      throw new NotFoundException(id.toString(), User.class);
+    }
+
+    imageService.deleteImage(id, user.getImageName());
+    user.setImageName(null);
+    userDAO.update(user);
+    userDAO.flush();
+  }
+
 }

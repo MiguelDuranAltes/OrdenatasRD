@@ -8,4 +8,6 @@ public interface ImageService {
   String saveImage(MultipartFile file, Long id) throws ModelException;
 
   ImageDTO getImage(Long id, String nombreImagen) throws ModelException;
+
+  void deleteImage(Long id, String nombreImagen) throws ModelException;
 }

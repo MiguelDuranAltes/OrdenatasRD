@@ -86,4 +86,13 @@ public class ImageServiceFileSystem implements ImageService {
           return MediaType.IMAGE_JPEG_VALUE;
       }
     }
+
+    public void deleteImage(Long id, String nombreImagen) throws ModelException {
+      try {
+        Files.deleteIfExists(getRootLocation().resolve(properties.getRutaImagenes()+ id + getExtension(nombreImagen)));
+      } catch (IOException e) {
+        e.printStackTrace();
+        throw new ModelException("Se ha producido algún error al borrar la imagen");
+      }
+    }
 }

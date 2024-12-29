@@ -67,6 +67,7 @@ public class SecurityConfiguration {
         .requestMatchers(HttpMethod.PUT, "/api/products/**").hasAuthority(UserAuthority.ADMIN.name())
         .requestMatchers(HttpMethod.GET, "/api/users/**").permitAll()
         .requestMatchers(HttpMethod.PUT, "/api/users/**").hasAuthority(UserAuthority.ADMIN.name())
+        .requestMatchers(HttpMethod.DELETE, "/api/users/{id}/imagen").permitAll()
         .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasAuthority(UserAuthority.ADMIN.name())
 
         .requestMatchers("/**").authenticated())
