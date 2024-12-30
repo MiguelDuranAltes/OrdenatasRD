@@ -108,7 +108,9 @@ public class OrderService {
     if (!bdOrder.getUser().getId().equals(currentUser.getId())) {
       throw new OperationNotAllowed("Current user is not the order owner");
     }
-
+    if (bdOrder.getStatus() != StatusOrder.DELIVERED) {
+      throw new OperationNotAllowed("Order is not delivered");
+    }
     bdOrder.setStatus(StatusOrder.RETURNED);
 
     OrderChange orderChange = new OrderChange(orderChangeDTO.getRefund(), bdOrder, orderChangeDTO.getText(), orderChangeDTO.getType());
