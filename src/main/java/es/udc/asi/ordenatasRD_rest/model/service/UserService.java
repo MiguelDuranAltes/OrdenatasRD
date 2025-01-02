@@ -101,9 +101,37 @@ public class UserService {
     if (currentUser.getId().equals(user.getId())) {
       throw new OperationNotAllowed("The user cannot block/unblock itself");
     }
-
     user.setBlocked(blocked);
+    //Para cuando se bloquee por warnings, que al desbloquear, se le reseteen los warnings
+    if(user.getWanings() == 3){
+      user.setWarnings(0);
+    }
     userDAO.update(user);
+    return new UserDTOPublic(user);
+  }
+
+  @Transactional(readOnly = false)
+  public UserDTOPublic updateWarnings(Long id) throws NotFoundException, OperationNotAllowed {
+    User user = userDAO.findById(id);
+    if (user == null) {
+      throw new NotFoundException(id.toString(), User.class);
+    }
+
+    UserDTOPrivate currentUser = getCurrentUserWithAuthority();
+
+    Integer warnings = user.getWanings() + 1;
+    if (warnings >= 3) {
+      user.setBlocked(true);
+      warnings = 0;
+    }
+
+    user.setWarnings(warnings);
+    userDAO.update(user);
+
+    if (user.isBlocked()) {
+      throw new OperationNotAllowed("Usuario bloqueado por warnings");
+    }
+
     return new UserDTOPublic(user);
   }
 

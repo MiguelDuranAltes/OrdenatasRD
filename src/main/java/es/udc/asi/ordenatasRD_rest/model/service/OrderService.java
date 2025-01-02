@@ -113,6 +113,10 @@ public class OrderService {
     }
     bdOrder.setStatus(StatusOrder.RETURNED);
 
+    if(orderChangeDTO.getText() == null) {
+      userService.updateWarnings(currentUser.getId());
+    }
+
     OrderChange orderChange = new OrderChange(orderChangeDTO.getRefund(), bdOrder, orderChangeDTO.getText(), orderChangeDTO.getType());
     bdOrder.setAction(orderChange);
 

@@ -60,6 +60,7 @@ public class DatabaseLoader {
     userDAO.update(miguel);
 
     User lucas = userDAO.findByLogin("lucas");
+    lucas.setWarnings(2);
     Adress adress2 = new Adress("Calle Real", 456, 2, "Halloween", 12345, lucas);
     Adress adress4 = new Adress("Vegamot", 202, 4, "Trondheim", 13003, lucas);
     lucas.getAdresses().add(adress2);
@@ -103,6 +104,7 @@ public class DatabaseLoader {
 
     Order order2 = new Order(350.0 , lucas, adress2, paymentMethod2);
     order2.setOrderProducts(List.of(new OrderProduct(order2, product3, 1)));
+    order2.setStatus(StatusOrder.DELIVERED);
     orderDAO.create(order2);
     Thread.sleep(1000);
 

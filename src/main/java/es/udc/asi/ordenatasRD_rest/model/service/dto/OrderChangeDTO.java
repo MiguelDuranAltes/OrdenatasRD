@@ -14,7 +14,6 @@ public class OrderChangeDTO {
   @NotNull
   private Double refund;
   private LocalDateTime date;
-  @NotEmpty
   @Size(max = 200)
   private String text;
   @NotEmpty
