@@ -75,10 +75,6 @@ public class OrderResource {
   @PostMapping("/{id}/return")
   public OrderDTO returnOrder (@PathVariable Long id,  @RequestBody @Valid OrderChangeDTO cancelacion) throws NotFoundException, OperationNotAllowed {
     OrderDTO order = orderService.findById(id);
-    try {
-      return orderService.returnOrder(order, cancelacion);
-    }catch (OperationNotAllowed e) {
-      throw new OperationNotAllowed("Error en la devolución del pedido: " + e.getMessage());
-    }
+    return orderService.returnOrder(order, cancelacion);
   }
 }

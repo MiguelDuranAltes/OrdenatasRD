@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import es.udc.asi.ordenatasRD_rest.model.exception.ModelException;
+import es.udc.asi.ordenatasRD_rest.model.exception.*;
 import es.udc.asi.ordenatasRD_rest.model.repository.*;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.asi.ordenatasRD_rest.model.domain.User;
 import es.udc.asi.ordenatasRD_rest.model.domain.UserAuthority;
-import es.udc.asi.ordenatasRD_rest.model.exception.NotFoundException;
-import es.udc.asi.ordenatasRD_rest.model.exception.OperationNotAllowed;
-import es.udc.asi.ordenatasRD_rest.model.exception.UserLoginExistsException;
 import es.udc.asi.ordenatasRD_rest.security.SecurityUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -111,7 +108,7 @@ public class UserService {
   }
 
   @Transactional(readOnly = false)
-  public UserDTOPublic updateWarnings(Long id) throws NotFoundException, OperationNotAllowed {
+  public UserDTOPublic updateWarnings(Long id) throws NotFoundException, UserBlockedException {
     User user = userDAO.findById(id);
     if (user == null) {
       throw new NotFoundException(id.toString(), User.class);
@@ -129,7 +126,7 @@ public class UserService {
     userDAO.update(user);
 
     if (user.isBlocked()) {
-      throw new OperationNotAllowed("Usuario bloqueado por warnings");
+      throw new UserBlockedException("Usuario bloqueado por acumulación de Warnings");
     }
 
     return new UserDTOPublic(user);
