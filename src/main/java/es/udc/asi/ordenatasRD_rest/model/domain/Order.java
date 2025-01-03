@@ -20,7 +20,7 @@ public class Order {
   private Double price;
 
   @Column
-  private LocalDateTime purchaseDate = LocalDateTime.now();
+  private LocalDateTime purchaseDate = LocalDateTime.now().withNano(0);
 
   @Column
   @Enumerated(EnumType.STRING)

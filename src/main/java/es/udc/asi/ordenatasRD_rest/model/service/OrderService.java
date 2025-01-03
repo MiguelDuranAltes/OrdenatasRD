@@ -3,6 +3,7 @@ package es.udc.asi.ordenatasRD_rest.model.service;
 import es.udc.asi.ordenatasRD_rest.model.domain.*;
 import es.udc.asi.ordenatasRD_rest.model.exception.NotFoundException;
 import es.udc.asi.ordenatasRD_rest.model.exception.OperationNotAllowed;
+import es.udc.asi.ordenatasRD_rest.model.exception.UserBlockedException;
 import es.udc.asi.ordenatasRD_rest.model.repository.*;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.*;
 import es.udc.asi.ordenatasRD_rest.security.SecurityUtils;
@@ -55,7 +56,7 @@ public class OrderService {
   public List<OrderProductDTO> findProducts(Long id) throws NotFoundException {
     Order order = orderDAO.findById(id);
     List<OrderProduct> orderProducts = order.getOrderProducts();
-    return orderProducts.stream().map(orderProduct -> new OrderProductDTO(orderProduct.getId(),orderProduct.getQuantity())).collect(Collectors.toList());
+    return orderProducts.stream().map(orderProduct -> new OrderProductDTO(orderProduct.getProduct().getId(),orderProduct.getQuantity())).collect(Collectors.toList());
   }
 
   public OrderDTO findById(Long id) throws NotFoundException {
@@ -98,7 +99,7 @@ public class OrderService {
 
   @PreAuthorize("hasAuthority('USER')")
   @Transactional(readOnly = false)
-  public OrderDTO returnOrder(OrderDTO order, OrderChangeDTO orderChangeDTO) throws NotFoundException, OperationNotAllowed {
+  public void returnOrder(OrderDTO order, OrderChangeDTO orderChangeDTO) throws NotFoundException, OperationNotAllowed, UserBlockedException {
     Order bdOrder = orderDAO.findById(order.getId());
     if(bdOrder == null) {
       throw new NotFoundException(order.getId().toString(), Order.class);
@@ -113,10 +114,6 @@ public class OrderService {
     }
     bdOrder.setStatus(StatusOrder.RETURNED);
 
-    if(orderChangeDTO.getText() == null) {
-      userService.updateWarnings(currentUser.getId());
-    }
-
     OrderChange orderChange = new OrderChange(orderChangeDTO.getRefund(), bdOrder, orderChangeDTO.getText(), orderChangeDTO.getType());
     bdOrder.setAction(orderChange);
 
@@ -129,12 +126,14 @@ public class OrderService {
       productDao.update(product);
     }
 
-    return new OrderDTO(bdOrder);
+    if(orderChangeDTO.getText() == null) {
+      userService.updateWarnings(currentUser.getId());
+    }
   }
 
   @PreAuthorize("hasAuthority('ADMIN')")
   @Transactional(readOnly = false)
-  public OrderDTO cancelOrder(OrderDTO order, OrderChangeDTO orderChangeDTO) throws NotFoundException {
+  public void cancelOrder(OrderDTO order, OrderChangeDTO orderChangeDTO) throws NotFoundException {
     Order bdOrder = orderDAO.findById(order.getId());
     if(bdOrder == null) {
       throw new NotFoundException(order.getId().toString(), Order.class);
@@ -154,7 +153,6 @@ public class OrderService {
       productDao.update(product);
     }
 
-    return new OrderDTO(bdOrder);
   }
 
   @PreAuthorize("hasAuthority('ADMIN')")

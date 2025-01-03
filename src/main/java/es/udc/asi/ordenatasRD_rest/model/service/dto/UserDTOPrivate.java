@@ -24,7 +24,7 @@ public class UserDTOPrivate {
     this.id = user.getId();
     this.login = user.getLogin();
     this.authority = user.getAuthority();
-    this.warnings = user.getWanings();
+    this.warnings = user.getWarnings();
   }
 
   public Long getId() {

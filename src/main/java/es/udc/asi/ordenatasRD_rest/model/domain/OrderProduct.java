@@ -12,7 +12,7 @@ public class OrderProduct {
   @ManyToOne(fetch = FetchType.LAZY)
   private Order order;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   private Product product;
 
   @Column

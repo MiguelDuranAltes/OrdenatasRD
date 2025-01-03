@@ -100,7 +100,7 @@ public class UserService {
     }
     user.setBlocked(blocked);
     //Para cuando se bloquee por warnings, que al desbloquear, se le reseteen los warnings
-    if(user.getWanings() == 3){
+    if(user.getWarnings() == 3){
       user.setWarnings(0);
     }
     userDAO.update(user);
@@ -114,9 +114,7 @@ public class UserService {
       throw new NotFoundException(id.toString(), User.class);
     }
 
-    UserDTOPrivate currentUser = getCurrentUserWithAuthority();
-
-    Integer warnings = user.getWanings() + 1;
+    int warnings = user.getWarnings() + 1;
     if (warnings >= 3) {
       user.setBlocked(true);
       warnings = 0;
@@ -124,10 +122,6 @@ public class UserService {
 
     user.setWarnings(warnings);
     userDAO.update(user);
-
-    if (user.isBlocked()) {
-      throw new UserBlockedException("Usuario bloqueado por acumulación de Warnings");
-    }
 
     return new UserDTOPublic(user);
   }

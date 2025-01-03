@@ -16,7 +16,7 @@ public class OrderChange {
   private Double refund;
 
   @Column
-  private LocalDateTime date = LocalDateTime.now();
+  private LocalDateTime date = LocalDateTime.now().withNano(0);
 
   @OneToOne(mappedBy = "action")
   private Order order;
@@ -36,7 +36,7 @@ public class OrderChange {
     this.refund = refund;
     this.order = order;
     this.reason = reason;
-
+    this.type = type;
   }
 
   @Override

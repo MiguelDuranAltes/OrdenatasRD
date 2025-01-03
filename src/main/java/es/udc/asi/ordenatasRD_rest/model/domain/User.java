@@ -98,7 +98,7 @@ public class User {
     this.blocked = blocked;
   }
 
-    public Integer getWanings() {
+  public Integer getWarnings() {
     return warnings;
   }
 

@@ -3,6 +3,7 @@ package es.udc.asi.ordenatasRD_rest.web;
 import es.udc.asi.ordenatasRD_rest.model.domain.Order;
 import es.udc.asi.ordenatasRD_rest.model.exception.NotFoundException;
 import es.udc.asi.ordenatasRD_rest.model.exception.OperationNotAllowed;
+import es.udc.asi.ordenatasRD_rest.model.exception.UserBlockedException;
 import es.udc.asi.ordenatasRD_rest.model.service.OrderService;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.OrderChangeDTO;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.OrderDTO;
@@ -67,14 +68,14 @@ public class OrderResource {
   }
 
   @PostMapping("/{id}/cancel")
-  public OrderDTO cancelOrder (@PathVariable Long id,  @RequestBody @Valid OrderChangeDTO cancelacion) throws NotFoundException, OperationNotAllowed {
+  public void cancelOrder (@PathVariable Long id,  @RequestBody @Valid OrderChangeDTO cancelacion) throws NotFoundException{
     OrderDTO order = orderService.findById(id);
-    return orderService.cancelOrder(order, cancelacion);
+    orderService.cancelOrder(order, cancelacion);
   }
 
   @PostMapping("/{id}/return")
-  public OrderDTO returnOrder (@PathVariable Long id,  @RequestBody @Valid OrderChangeDTO cancelacion) throws NotFoundException, OperationNotAllowed {
+  public void returnOrder (@PathVariable Long id,  @RequestBody @Valid OrderChangeDTO devolucion) throws NotFoundException, OperationNotAllowed, UserBlockedException {
     OrderDTO order = orderService.findById(id);
-    return orderService.returnOrder(order, cancelacion);
+    orderService.returnOrder(order, devolucion);
   }
 }
