@@ -3,7 +3,6 @@ package es.udc.asi.ordenatasRD_rest.web;
 import es.udc.asi.ordenatasRD_rest.model.domain.Order;
 import es.udc.asi.ordenatasRD_rest.model.exception.NotFoundException;
 import es.udc.asi.ordenatasRD_rest.model.exception.OperationNotAllowed;
-import es.udc.asi.ordenatasRD_rest.model.exception.UserBlockedException;
 import es.udc.asi.ordenatasRD_rest.model.service.OrderService;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.OrderChangeDTO;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.OrderDTO;
@@ -74,7 +73,7 @@ public class OrderResource {
   }
 
   @PostMapping("/{id}/return")
-  public void returnOrder (@PathVariable Long id,  @RequestBody @Valid OrderChangeDTO devolucion) throws NotFoundException, OperationNotAllowed, UserBlockedException {
+  public void returnOrder (@PathVariable Long id,  @RequestBody @Valid OrderChangeDTO devolucion) throws NotFoundException, OperationNotAllowed{
     OrderDTO order = orderService.findById(id);
     orderService.returnOrder(order, devolucion);
   }

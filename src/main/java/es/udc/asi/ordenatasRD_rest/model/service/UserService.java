@@ -108,22 +108,20 @@ public class UserService {
   }
 
   @Transactional(readOnly = false)
-  public UserDTOPublic updateWarnings(Long id) throws NotFoundException, UserBlockedException {
+  public void updateWarnings(Long id) throws NotFoundException{
     User user = userDAO.findById(id);
     if (user == null) {
       throw new NotFoundException(id.toString(), User.class);
     }
 
     int warnings = user.getWarnings() + 1;
-    if (warnings >= 3) {
+    if (warnings == 3) {
       user.setBlocked(true);
-      warnings = 0;
     }
 
     user.setWarnings(warnings);
     userDAO.update(user);
 
-    return new UserDTOPublic(user);
   }
 
   public UserDTOPrivate getCurrentUserWithAuthority() {

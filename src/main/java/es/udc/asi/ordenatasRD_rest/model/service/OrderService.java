@@ -3,7 +3,6 @@ package es.udc.asi.ordenatasRD_rest.model.service;
 import es.udc.asi.ordenatasRD_rest.model.domain.*;
 import es.udc.asi.ordenatasRD_rest.model.exception.NotFoundException;
 import es.udc.asi.ordenatasRD_rest.model.exception.OperationNotAllowed;
-import es.udc.asi.ordenatasRD_rest.model.exception.UserBlockedException;
 import es.udc.asi.ordenatasRD_rest.model.repository.*;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.*;
 import es.udc.asi.ordenatasRD_rest.security.SecurityUtils;
@@ -99,7 +98,7 @@ public class OrderService {
 
   @PreAuthorize("hasAuthority('USER')")
   @Transactional(readOnly = false)
-  public void returnOrder(OrderDTO order, OrderChangeDTO orderChangeDTO) throws NotFoundException, OperationNotAllowed, UserBlockedException {
+  public void returnOrder(OrderDTO order, OrderChangeDTO orderChangeDTO) throws NotFoundException, OperationNotAllowed {
     Order bdOrder = orderDAO.findById(order.getId());
     if(bdOrder == null) {
       throw new NotFoundException(order.getId().toString(), Order.class);

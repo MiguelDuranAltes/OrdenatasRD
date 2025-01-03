@@ -2,9 +2,7 @@ package es.udc.asi.ordenatasRD_rest.web;
 
 import es.udc.asi.ordenatasRD_rest.model.exception.NotFoundException;
 import es.udc.asi.ordenatasRD_rest.model.service.AdressService;
-import es.udc.asi.ordenatasRD_rest.model.service.UserService;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.AdressDTO;
-import es.udc.asi.ordenatasRD_rest.model.service.dto.UserWithOrdersDTO;
 import es.udc.asi.ordenatasRD_rest.web.exceptions.RequestBodyNotValidException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -53,7 +53,7 @@ public class ProductService {
   public ProductDTO update (ProductDTO product)throws NotFoundException, OperationNotAllowed{
     Product productBd = productdao.findById(product.getId());
     if (productBd == null) {
-      throw new NotFoundException(productBd.getId().toString(), Product.class);
+      throw new NotFoundException(product.getId().toString(), Product.class);
     }
     productBd.setName(product.getName());
     productBd.setDescription(product.getDescription());

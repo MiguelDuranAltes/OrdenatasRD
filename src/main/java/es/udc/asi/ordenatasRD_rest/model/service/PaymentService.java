@@ -1,6 +1,5 @@
 package es.udc.asi.ordenatasRD_rest.model.service;
 
-import es.udc.asi.ordenatasRD_rest.model.domain.Adress;
 import es.udc.asi.ordenatasRD_rest.model.domain.PaymentMethod;
 import es.udc.asi.ordenatasRD_rest.model.domain.User;
 import es.udc.asi.ordenatasRD_rest.model.exception.NotFoundException;

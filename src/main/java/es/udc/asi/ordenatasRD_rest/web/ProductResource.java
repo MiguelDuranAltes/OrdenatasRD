@@ -29,14 +29,13 @@ public class ProductResource {
     return productService.findById(id);
   }
 
-  //No seguro de si es necesario, pero puede ser util en un futuro
+
   @GetMapping("/brand/{brand}")
-  public Collection<ProductDTO> findByBrand(@PathVariable String brand) throws NotFoundException{
+  public Collection<ProductDTO> findByBrand(@PathVariable String brand){
     return productService.findByBrand(brand);
   }
 
   @PostMapping
-  //¿Meteremos validación en el DTO, por ejemplo en la descripción, para q haya máximo de strings?
   public ProductDTO create(@RequestBody @Valid ProductDTO product, Errors errors ) throws RequestBodyNotValidException {
     if (errors.hasErrors()) {
       throw new RequestBodyNotValidException(errors);
