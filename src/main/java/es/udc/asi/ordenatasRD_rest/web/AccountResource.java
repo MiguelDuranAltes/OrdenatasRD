@@ -1,5 +1,6 @@
 package es.udc.asi.ordenatasRD_rest.web;
 
+import es.udc.asi.ordenatasRD_rest.model.exception.OperationNotAllowed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ public class AccountResource {
 
   @PostMapping("/register")
   public void registerAccount(@Valid @RequestBody UserDTOPrivate account, Errors errors)
-      throws UserLoginExistsException, RequestBodyNotValidException {
+      throws UserLoginExistsException, RequestBodyNotValidException, OperationNotAllowed {
     if (errors.hasErrors()) {
       throw new RequestBodyNotValidException(errors);
     }

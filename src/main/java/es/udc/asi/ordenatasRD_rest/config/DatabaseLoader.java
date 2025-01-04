@@ -1,6 +1,7 @@
 package es.udc.asi.ordenatasRD_rest.config;
 
 import es.udc.asi.ordenatasRD_rest.model.domain.*;
+import es.udc.asi.ordenatasRD_rest.model.exception.OperationNotAllowed;
 import es.udc.asi.ordenatasRD_rest.model.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -34,15 +35,15 @@ public class DatabaseLoader {
 
 
   @Transactional(readOnly = false, rollbackFor = Exception.class)
-  public void loadData() throws UserLoginExistsException, InterruptedException {
-    userService.registerUser("redon", "redon", true);
-    userService.registerUser("duran", "duran", true);
-    userService.registerUser("lucas", "lucas");
-    userService.registerUser("pedroff", "pedroff");
+  public void loadData() throws UserLoginExistsException, InterruptedException, OperationNotAllowed {
+    userService.registerUser("redon", "redon@", true);
+    userService.registerUser("duran", "duran@", true);
+    userService.registerUser("lucas", "lucas@");
+    userService.registerUser("pedroff", "pedroff@");
     User pedro = userDAO.findByLogin("pedroff");
     pedro.setBlocked(true);
     userDAO.update(pedro);
-    userService.registerUser("miguel", "miguel");
+    userService.registerUser("miguel", "miguel@");
 
     User miguel = userDAO.findByLogin("miguel");
     Adress adress1 = new Adress("Calle Falsa",123, 1, "Springfield", 12345, miguel);

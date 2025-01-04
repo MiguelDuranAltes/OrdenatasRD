@@ -8,7 +8,7 @@ public class LoginDTO {
   private String login;
 
   @NotEmpty
-  @Size(min = 4)
+  @Size(min = 5)
   private String password;
 
   public String getLogin() {

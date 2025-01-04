@@ -62,17 +62,22 @@ public class UserService {
   }
 
   @Transactional(readOnly = false)
-  public void registerUser(String login, String password) throws UserLoginExistsException {
+  public void registerUser(String login, String password) throws UserLoginExistsException, OperationNotAllowed {
     registerUser(login, password, false);
   }
 
   @Transactional(readOnly = false)
-  public void registerUser(String login, String password, boolean isAdmin) throws UserLoginExistsException {
+  public void registerUser(String login, String password, boolean isAdmin) throws UserLoginExistsException, OperationNotAllowed{
     if (userDAO.findByLogin(login) != null) {
       throw new UserLoginExistsException(login);
     }
 
     User user = new User();
+    if(password.length() < 5){
+      throw new OperationNotAllowed("Password must be at least 6 characters long");
+    }if (!password.matches(".*[@#$%&].*")) {
+      throw new OperationNotAllowed("Password must contain at least one of the following characters: @#$%&");
+    }
     String encryptedPassword = passwordEncoder.encode(password);
 
     user.setLogin(login);

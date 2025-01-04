@@ -1,5 +1,6 @@
 package es.udc.asi.ordenatasRD_rest;
 
+import es.udc.asi.ordenatasRD_rest.model.exception.OperationNotAllowed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class OrdenatasRestApplication {
   public void init() throws InterruptedException {
     try {
       databaseLoader.loadData();
-    } catch (UserLoginExistsException e) {
+    } catch (UserLoginExistsException | OperationNotAllowed e) {
       logger.error(e.getMessage(), e);
     }
   }
