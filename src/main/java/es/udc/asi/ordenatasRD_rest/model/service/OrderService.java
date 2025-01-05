@@ -69,6 +69,11 @@ public class OrderService {
   @PreAuthorize("hasAuthority('USER')")
   @Transactional(readOnly = false)
   public OrderDTO create(OrderDTO order, List<OrderProductDTO> orderProductDTOS) throws OperationNotAllowed {
+
+    if(orderProductDTOS.isEmpty()) {
+      throw new OperationNotAllowed("Debes seleccionar al menos un producto para hacer un pedido");
+    }
+
     User currentUser = userDAO.findById(userService.getCurrentUserWithAuthority().getId());
     PaymentMethod paymentMethod = paymentMethodDao.findById(order.getPaymentMethod().getId());
     Adress adress = adressDao.findById(order.getAdress().getId());
