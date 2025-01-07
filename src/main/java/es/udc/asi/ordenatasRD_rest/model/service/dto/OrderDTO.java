@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 public class OrderDTO {
 
   private Long id;
-  @NotEmpty
   private String userLogin;
   @NotNull(message = "El precio no puede ser nulo")
   private Double price;
@@ -29,7 +28,9 @@ public class OrderDTO {
 
   public OrderDTO(Order order) {
     this.id = order.getId();
-    this.userLogin = order.getUser().getLogin();
+    if(order.getUser()!=null){
+      this.userLogin = order.getUser().getLogin();
+    }
     this.price = order.getPrice();
     this.purchaseDate = order.getPurchaseDate();
     this.status = order.getStatus().toString();
