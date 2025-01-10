@@ -27,6 +27,8 @@ public class Product {
   @Column
   private Integer availability;
 
+  private String imageName;
+
   public Product() {super();}
 
   public Product(String name, String description, Double price, String brand, Integer availability){
@@ -35,7 +37,15 @@ public class Product {
     this.price = price;
     this.brand = brand;
     this.availability = availability;
+  }
 
+  public Product(String name, String description, Double price, String brand, Integer availability, String imageName){
+    this.name = name;
+    this.description = description;
+    this.price = price;
+    this.brand = brand;
+    this.availability = availability;
+    this.imageName=imageName;
   }
 
   @Override
@@ -103,4 +113,11 @@ public class Product {
     this.availability = availability;
   }
 
+  public String getImageName(){
+    return this.imageName;
+  }
+
+  public void setImageName(String imageName) {
+    this.imageName = imageName;
+  }
 }

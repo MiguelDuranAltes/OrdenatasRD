@@ -19,4 +19,6 @@ public interface ProductDao {
   Collection<Product> findByBrand(String brand);
 
   Collection<Product> findByNames(List<String> names);
+
+  void flush();
 }

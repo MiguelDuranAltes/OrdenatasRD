@@ -13,6 +13,7 @@ public class Properties {
   private String jwtSecretKey;
   private Long jwtValidity;
   private String rutaImagenes;
+  private String rutaImagenesProd;
 
   public String getClientHost() {
     return clientHost;
@@ -47,4 +48,11 @@ public class Properties {
     this.rutaImagenes = rutaImagenes;
   }
 
+  public String getRutaImagenesProd(){
+    return rutaImagenesProd;
+  }
+
+  public void setRutaImagenesProd(String rutaImagenesProd) {
+    this.rutaImagenesProd = rutaImagenesProd;
+  }
 }

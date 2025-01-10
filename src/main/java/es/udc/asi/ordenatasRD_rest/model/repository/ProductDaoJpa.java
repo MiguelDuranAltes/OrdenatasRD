@@ -56,4 +56,9 @@ public class ProductDaoJpa extends GenericDaoJpa implements ProductDao{
     query.setParameter("names", names);
     return query.getResultList();
   }
+  @Override
+  public void flush() {
+    entityManager.flush();
+  }
+
 }

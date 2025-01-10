@@ -19,6 +19,8 @@ public class ProductDTO {
   @NotEmpty
   private String brand;
 
+  private boolean hasImage;
+
   public ProductDTO() {
     super();
   }
@@ -30,6 +32,7 @@ public class ProductDTO {
     this.price = product.getPrice();
     this.availability = product.getAvailability();
     this.brand = product.getBrand();
+    this.hasImage = product.getImageName() != null;
   }
 
   public Long getId() {
@@ -80,4 +83,11 @@ public class ProductDTO {
     this.brand = brand;
   }
 
+  public boolean isHasImage() {
+    return hasImage;
+  }
+
+  public void setHasImage(boolean hasImage) {
+    this.hasImage = hasImage;
+  }
 }

@@ -1,15 +1,21 @@
 package es.udc.asi.ordenatasRD_rest.web;
 
+import es.udc.asi.ordenatasRD_rest.model.exception.ModelException;
 import es.udc.asi.ordenatasRD_rest.model.exception.NotFoundException;
 import es.udc.asi.ordenatasRD_rest.model.exception.OperationNotAllowed;
 import es.udc.asi.ordenatasRD_rest.model.service.ProductService;
+import es.udc.asi.ordenatasRD_rest.model.service.dto.ImageDTO;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.ProductDTO;
 import es.udc.asi.ordenatasRD_rest.web.exceptions.RequestBodyNotValidException;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Collection;
 
 @RestController
@@ -58,6 +64,30 @@ public class ProductResource {
   @DeleteMapping("/{id}")
   public void delete(@PathVariable Long id) throws NotFoundException, OperationNotAllowed {
     productService.deleteById(id);
+  }
+
+  @GetMapping("/{id}/imagen")
+  public void recuperarImagen(@PathVariable Long id, HttpServletResponse response) throws ModelException {
+    ImageDTO imagen = productService.getProductImage(id);
+
+    try {
+      response.setHeader("Content-disposition", "filename=" + imagen.getFilename());
+      response.setContentType(imagen.getMimeType());
+      IOUtils.copy(imagen.getInputStream(), response.getOutputStream());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  @PostMapping("/{id}/imagen")
+  public void guardarImagen(@PathVariable Long id, @RequestParam MultipartFile file) throws ModelException {
+    productService.saveProductImage(id, file);
+  }
+
+  @DeleteMapping("/{id}/imagen")
+  public void borrarImagen(@PathVariable Long id) throws ModelException {
+    productService.deleteProductImage(id);
   }
 
 }

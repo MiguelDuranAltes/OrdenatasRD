@@ -168,7 +168,7 @@ public class UserService {
       throw new ModelException("No se ha enviado ninguna imagen");
     }
 
-    String nombreFichero = imageService.saveImage(file, id);
+    String nombreFichero = imageService.saveImage(file, id, false);
     user.setImageName(nombreFichero);
     userDAO.update(user);
   }
@@ -179,7 +179,7 @@ public class UserService {
       throw new NotFoundException(id.toString(), User.class);
     }
 
-    return imageService.getImage(id, user.getImageName());
+    return imageService.getImage(id, user.getImageName(), false);
   }
 
   public void deleteUserImage(Long id) throws ModelException {
@@ -188,7 +188,7 @@ public class UserService {
       throw new NotFoundException(id.toString(), User.class);
     }
 
-    imageService.deleteImage(id, user.getImageName());
+    imageService.deleteImage(id, user.getImageName(), false);
     user.setImageName(null);
     userDAO.update(user);
     userDAO.flush();

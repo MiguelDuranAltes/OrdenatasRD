@@ -1,14 +1,17 @@
 package es.udc.asi.ordenatasRD_rest.model.service;
 
 import es.udc.asi.ordenatasRD_rest.model.domain.Product;
+import es.udc.asi.ordenatasRD_rest.model.exception.ModelException;
 import es.udc.asi.ordenatasRD_rest.model.exception.NotFoundException;
 import es.udc.asi.ordenatasRD_rest.model.exception.OperationNotAllowed;
 import es.udc.asi.ordenatasRD_rest.model.repository.ProductDao;
+import es.udc.asi.ordenatasRD_rest.model.service.dto.ImageDTO;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -20,6 +23,9 @@ public class ProductService {
 
   @Autowired
   private ProductDao productdao;
+
+  @Autowired
+  private ImageService imageService;
 
   public Collection<ProductDTO> findAll(){
     Stream<Product> products = productdao.findAll().stream();
@@ -74,5 +80,42 @@ public class ProductService {
       throw new NotFoundException(id.toString(), Product.class);
     }
     productdao.delete(product);
+  }
+
+  @Transactional(readOnly = false)
+  public void saveProductImage(Long id, MultipartFile file) throws ModelException {
+    Product product = productdao.findById(id);
+    if (product == null) {
+      throw new NotFoundException(id.toString(), Product.class);
+    }
+
+    if (file.isEmpty()) {
+      throw new ModelException("No se ha enviado ninguna imagen");
+    }
+
+    String nombreFichero = imageService.saveImage(file, id, true);
+    product.setImageName(nombreFichero);
+    productdao.update(product);
+  }
+
+  public ImageDTO getProductImage(Long id) throws ModelException {
+    Product product = productdao.findById(id);
+    if (product == null) {
+      throw new NotFoundException(id.toString(), Product.class);
+    }
+
+    return imageService.getImage(id, product.getImageName(), true);
+  }
+
+  public void deleteProductImage(Long id) throws ModelException {
+    Product product = productdao.findById(id);
+    if (product == null) {
+      throw new NotFoundException(id.toString(), Product.class);
+    }
+
+    imageService.deleteImage(id, product.getImageName(), true);
+    product.setImageName(null);
+    productdao.update(product);
+    productdao.flush();
   }
 }

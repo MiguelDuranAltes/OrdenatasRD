@@ -23,76 +23,85 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ImageServiceFileSystem implements ImageService {
 
-    @Autowired
-    private Properties properties;
+  @Autowired
+  private Properties properties;
 
-    private Path rootLocation;
+  private Path rootLocation;
 
 
-    public String saveImage(MultipartFile file, Long id) throws ModelException {
-      String filename = StringUtils.cleanPath(file.getOriginalFilename());
+  public String saveImage(MultipartFile file, Long id, boolean product) throws ModelException {
+    String filename = StringUtils.cleanPath(file.getOriginalFilename());
 
-      try (InputStream is = file.getInputStream()) {
-        Files.copy(is, getRootLocation().resolve(id + getExtension(filename)), StandardCopyOption.REPLACE_EXISTING);
-      } catch (IOException e) {
-        e.printStackTrace();
-        throw new ModelException("Se ha producido algún error procesando la imagen");
+    try (InputStream is = file.getInputStream()) {
+      Files.copy(is, getRootLocation(product).resolve(id + getExtension(filename)), StandardCopyOption.REPLACE_EXISTING);
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new ModelException("Se ha producido algún error procesando la imagen");
+    }
+    return filename;
+  }
+
+  private String getExtension(String filename) {
+    return filename.substring(filename.lastIndexOf("."));
+  }
+
+  private Path getRootLocation(boolean product) {
+    if(product){
+      this.rootLocation = Paths.get(properties.getRutaImagenesProd());
+    }
+    else{
+      this.rootLocation = Paths.get(properties.getRutaImagenes());
+    }
+    return this.rootLocation;
+  }
+
+  public ImageDTO getImage(Long id, String nombreImagen, boolean product) throws ModelException {
+    try {
+      String ruta;
+      if(product){
+        ruta = properties.getRutaImagenesProd();
+      }else
+        ruta= properties.getRutaImagenes();
+
+      InputStream is = new FileInputStream(ruta + id + getExtension(nombreImagen));
+
+      byte[] buffer = new byte[1024];
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      int len;
+      while ((len = is.read(buffer)) > -1) {
+        os.write(buffer, 0, len);
       }
-      return filename;
+      InputStream imageIs = new ByteArrayInputStream(os.toByteArray());
+      os.flush();
+      is.close();
+
+      return new ImageDTO(imageIs, nombreImagen, getImageMediaType(nombreImagen));
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new ModelException("se ha producido algún error al recuperar la imagen");
     }
+  }
 
-    private String getExtension(String filename) {
-      return filename.substring(filename.lastIndexOf("."));
+  private String getImageMediaType(String nombreImagen) {
+    String extension = getExtension(nombreImagen);
+    switch (extension.toLowerCase()) {
+      case ".png":
+        return MediaType.IMAGE_PNG_VALUE;
+      case ".gif":
+        return MediaType.IMAGE_GIF_VALUE;
+      case ".jpg":
+      case ".jpeg":
+      default:
+        return MediaType.IMAGE_JPEG_VALUE;
     }
+  }
 
-    private Path getRootLocation() {
-      if (rootLocation == null) {
-        this.rootLocation = Paths.get(properties.getRutaImagenes());
-      }
-      return this.rootLocation;
+  public void deleteImage(Long id, String nombreImagen, boolean product) throws ModelException {
+    try {
+      Files.deleteIfExists(getRootLocation(product).resolve(properties.getRutaImagenes()+ id + getExtension(nombreImagen)));
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new ModelException("Se ha producido algún error al borrar la imagen");
     }
-
-    public ImageDTO getImage(Long id, String nombreImagen) throws ModelException {
-      try {
-        InputStream is = new FileInputStream(properties.getRutaImagenes() + id + getExtension(nombreImagen));
-
-        byte[] buffer = new byte[1024];
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        int len;
-        while ((len = is.read(buffer)) > -1) {
-          os.write(buffer, 0, len);
-        }
-        InputStream imageIs = new ByteArrayInputStream(os.toByteArray());
-        os.flush();
-        is.close();
-
-        return new ImageDTO(imageIs, nombreImagen, getImageMediaType(nombreImagen));
-      } catch (IOException e) {
-        e.printStackTrace();
-        throw new ModelException("se ha producido algún error al recuperar la imagen");
-      }
-    }
-
-    private String getImageMediaType(String nombreImagen) {
-      String extension = getExtension(nombreImagen);
-      switch (extension.toLowerCase()) {
-        case ".png":
-          return MediaType.IMAGE_PNG_VALUE;
-        case ".gif":
-          return MediaType.IMAGE_GIF_VALUE;
-        case ".jpg":
-        case ".jpeg":
-        default:
-          return MediaType.IMAGE_JPEG_VALUE;
-      }
-    }
-
-    public void deleteImage(Long id, String nombreImagen) throws ModelException {
-      try {
-        Files.deleteIfExists(getRootLocation().resolve(properties.getRutaImagenes()+ id + getExtension(nombreImagen)));
-      } catch (IOException e) {
-        e.printStackTrace();
-        throw new ModelException("Se ha producido algún error al borrar la imagen");
-      }
-    }
+  }
 }
