@@ -7,7 +7,6 @@ import java.util.List;
 
 public class UserWishListDto {
   private Long id;
-  private String login;
   private List<ProductDTO> wishlist = new ArrayList<>();
 
   public UserWishListDto(){
@@ -16,7 +15,6 @@ public class UserWishListDto {
 
   public UserWishListDto(User user){
     this.id = user.getId();
-    this.login = user.getLogin();
     user.getWishlist().forEach(product -> this.wishlist.add(new ProductDTO(product)));
   }
 
@@ -26,14 +24,6 @@ public class UserWishListDto {
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public String getLogin() {
-    return login;
-  }
-
-  public void setLogin(String login) {
-    this.login = login;
   }
 
   public List<ProductDTO> getWishlist() {
