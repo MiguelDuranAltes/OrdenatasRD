@@ -37,6 +37,9 @@ public class User {
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private List<Order> orders = new ArrayList<>();
 
+  @ManyToMany
+  private List<Product> wishlist = new ArrayList<>();
+
   private String imageName;
 
   public User() { }
@@ -136,5 +139,13 @@ public class User {
 
   public void setImageName(String imageName) {
     this.imageName = imageName;
+  }
+
+  public List<Product> getWishlist() {
+    return wishlist;
+  }
+
+  public void setWishlist(List<Product> wishlist) {
+    this.wishlist = wishlist;
   }
 }

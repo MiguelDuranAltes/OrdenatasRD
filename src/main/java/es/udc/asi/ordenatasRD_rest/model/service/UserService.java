@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import es.udc.asi.ordenatasRD_rest.model.domain.Product;
 import es.udc.asi.ordenatasRD_rest.model.exception.*;
 import es.udc.asi.ordenatasRD_rest.model.repository.*;
 import es.udc.asi.ordenatasRD_rest.model.service.dto.*;
@@ -24,6 +25,9 @@ public class UserService {
 
   @Autowired
   private UserDao userDAO;
+
+  @Autowired
+  private ProductDao productDAO;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -193,5 +197,34 @@ public class UserService {
     userDAO.update(user);
     userDAO.flush();
   }
+  @Transactional(readOnly = false)
+  public void addProduct(Long id, Long productId) throws ModelException{
+    User user = userDAO.findById(id);
+    if (user == null) {
+      throw new NotFoundException(id.toString(), User.class);
+    }
+    Product product = productDAO.findById(productId);
+    user.getWishlist().add(product);
+    userDAO.update(user);
+    userDAO.flush();
+  }
+  @Transactional(readOnly = false)
+  public void removeProduct(Long id, Long productId) throws ModelException{
+    User user = userDAO.findById(id);
+    if (user == null) {
+      throw new NotFoundException(id.toString(), User.class);
+    }
+    Product product = productDAO.findById(productId);
+    user.getWishlist().remove(product);
+    userDAO.update(user);
+    userDAO.flush();
+  }
 
+  public UserWishListDto getWishlist(Long id) throws ModelException{
+    User user = userDAO.findById(id);
+    if (user == null) {
+      throw new NotFoundException(id.toString(), User.class);
+    }
+    return new UserWishListDto(user);
+  }
 }
